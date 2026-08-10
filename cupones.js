@@ -5,9 +5,8 @@
 // =====================================================
 console.log("🎟️ CUPONES.JS CARGADO");
 // =====================================================
-// CONFIGURACIÓN
+// CONFIGURACIÓN DE CUPONES
 // =====================================================
-// Aquí colocaremos después tus cupones reales.
 const CUPONES = {
     relampago: [
         {
@@ -88,12 +87,12 @@ function crearTarjetaCupon(cupon) {
             cupon.tope
             ?
             `
-            <div class="coupon-info">
-                🔝 Tope:
-                <strong>
-                    ${cupon.tope}
-                </strong>
-            </div>
+                <div class="coupon-info">
+                    🔝 Tope:
+                    <strong>
+                        ${cupon.tope}
+                    </strong>
+                </div>
             `
             :
             ""
@@ -108,47 +107,41 @@ function crearTarjetaCupon(cupon) {
     // =================================================
     // BOTÓN CUPÓN
     // =================================================
-    // =================================================
-// BOTÓN CUPÓN
-// =================================================
-const boton =
-    tarjeta.querySelector(
-        ".coupon-copy"
-    );
-boton.addEventListener(
-    "click",
-    () => {
-        // =================================================
-        // SISTEMA DE MERCADO LIBRE
-        // Copia + estadísticas + apertura
-        // =================================================
-        if (
-            typeof window.copiarYabrirMercadoLibre
-            === "function"
-        ) {
-            window.copiarYabrirMercadoLibre(
-                cupon.codigo,
-                cupon.link
-            );
-        }
-        else {
-            console.error(
-                "❌ mercado-libre.js no está cargado"
-            );
+    const boton =
+        tarjeta.querySelector(
+            ".coupon-copy"
+        );
+    boton.addEventListener(
+        "click",
+        () => {
             if (
-                window.mostrarToast
+                typeof window.copiarYabrirMercadoLibre
+                === "function"
             ) {
-                window.mostrarToast(
-                    "❌ Sistema de Mercado Libre no disponible"
+                window.copiarYabrirMercadoLibre(
+                    cupon.codigo,
+                    cupon.link,
+                    cupon.descuento
                 );
             }
+            else {
+                console.error(
+                    "❌ mercado-libre.js no está cargado"
+                );
+                if (
+                    window.mostrarToast
+                ) {
+                    window.mostrarToast(
+                        "❌ Sistema de Mercado Libre no disponible"
+                    );
+                }
+            }
         }
-    }
-);
+    );
     return tarjeta;
 }
 // =====================================================
-// CARGAR RELÁMPAGO
+// CARGAR RELÁMPAGOS
 // =====================================================
 function cargarRelampagos() {
     const contenedor =
@@ -222,5 +215,5 @@ document.addEventListener(
     }
 );
 // =====================================================
-// FIN CUPONES.JS
+// FIN
 // =====================================================
