@@ -1,9 +1,11 @@
 // =====================================================
 // ⚡ EL PATRÓN DE LAS OFERTAS
 // MERCADO-LIBRE.JS
-// Copiar cupón + abrir Mercado Libre
+// Copiar cupón + estadísticas + abrir Mercado Libre
 // =====================================================
-console.log("🛒 MERCADO-LIBRE.JS CARGADO");
+console.log(
+    "🛒 MERCADO-LIBRE.JS CARGADO"
+);
 // =====================================================
 // CONFIGURACIÓN
 // =====================================================
@@ -32,7 +34,9 @@ function abrirMercadoLibre(
         !link ||
         link === "#"
     ) {
-        if (window.mostrarToast) {
+        if (
+            window.mostrarToast
+        ) {
             window.mostrarToast(
                 "⚠️ Enlace de Mercado Libre pendiente"
             );
@@ -46,7 +50,9 @@ function abrirMercadoLibre(
     // =================================================
     // ANDROID
     // =================================================
-    if (esAndroid()) {
+    if (
+        esAndroid()
+    ) {
         try {
             const url =
                 new URL(link);
@@ -75,13 +81,9 @@ function abrirMercadoLibre(
     // =================================================
     // iPHONE / iPAD
     // =================================================
-    if (esIOS()) {
-        /*
-         * iOS decide si el enlace puede abrir
-         * directamente la aplicación.
-         *
-         * Conservamos el enlace de afiliado.
-         */
+    if (
+        esIOS()
+    ) {
         window.location.href =
             link;
         return;
@@ -93,14 +95,55 @@ function abrirMercadoLibre(
         link;
 }
 // =====================================================
-// COPIAR CUPÓN + REGISTRAR + ABRIR
+// OBTENER AHORRO DEL CUPÓN
+// =====================================================
+function obtenerAhorro(
+    descuento
+) {
+    if (!descuento) {
+        return 0;
+    }
+    const texto =
+        String(
+            descuento
+        );
+    // Solamente contamos descuentos
+    // de cantidad fija.
+    if (
+        !texto.includes("$")
+    ) {
+        return 0;
+    }
+    const numero =
+        texto
+            .replace("$", "")
+            .replace("OFF", "")
+            .replace(",", "")
+            .trim();
+    const ahorro =
+        parseFloat(
+            numero
+        );
+    return isNaN(
+        ahorro
+    )
+    ?
+    0
+    :
+    ahorro;
+}
+// =====================================================
+// COPIAR CUPÓN
 // =====================================================
 async function copiarYabrirMercadoLibre(
     codigo,
-    link = ENLACE_AFILIADO
+    link = ENLACE_AFILIADO,
+    descuento = ""
 ) {
     if (!codigo) {
-        if (window.mostrarToast) {
+        if (
+            window.mostrarToast
+        ) {
             window.mostrarToast(
                 "❌ Cupón no disponible"
             );
@@ -109,7 +152,7 @@ async function copiarYabrirMercadoLibre(
     }
     try {
         // =================================================
-        // COPIAR CUPÓN
+        // COPIAR CÓDIGO
         // =================================================
         await navigator.clipboard.writeText(
             codigo
@@ -119,7 +162,7 @@ async function copiarYabrirMercadoLibre(
             codigo
         );
         // =================================================
-        // ESTADÍSTICA GENERAL LOCAL
+        // ESTADÍSTICA LOCAL GENERAL
         // =================================================
         let copias =
             parseInt(
@@ -133,37 +176,66 @@ async function copiarYabrirMercadoLibre(
             copias
         );
         // =================================================
-        // ESTADÍSTICA DEL USUARIO
+        // CALCULAR AHORRO
+        // =================================================
+        const ahorro =
+            obtenerAhorro(
+                descuento
+            );
+        console.log(
+            "💰 Ahorro registrado:",
+            ahorro
+        );
+        // =================================================
+        // REGISTRAR EN PERFIL
         // =================================================
         if (
             typeof window.registrarCopiaUsuario
             === "function"
         ) {
-            window.registrarCopiaUsuario();
+            window.registrarCopiaUsuario(
+                ahorro
+            );
         }
         // =================================================
         // MENSAJE
         // =================================================
-        if (window.mostrarToast) {
-            window.mostrarToast(
-                "✅ Cupón copiado"
-            );
+        if (
+            window.mostrarToast
+        ) {
+            if (
+                ahorro > 0
+            ) {
+                window.mostrarToast(
+                    `✅ Cupón copiado · Ahorraste $${ahorro}`
+                );
+            }
+            else {
+                window.mostrarToast(
+                    "✅ Cupón copiado"
+                );
+            }
         }
         // =================================================
         // ABRIR MERCADO LIBRE
         // =================================================
-        setTimeout(() => {
-            abrirMercadoLibre(
-                link
-            );
-        }, 250);
+        setTimeout(
+            () => {
+                abrirMercadoLibre(
+                    link
+                );
+            },
+            250
+        );
     }
     catch (error) {
         console.error(
             "❌ Error al copiar:",
             error
         );
-        if (window.mostrarToast) {
+        if (
+            window.mostrarToast
+        ) {
             window.mostrarToast(
                 "❌ No se pudo copiar el cupón"
             );
