@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
 <meta
     name="viewport"
     content="width=device-width, initial-scale=1.0"
@@ -12,7 +12,7 @@
 >
 <meta
     name="description"
-    content="Cupones, ofertas y descuentos de Mercado Libre México."
+    content="El Patrón de las Ofertas - Cupones, ofertas y descuentos de Mercado Libre México."
 >
 <title>⚡ El Patrón de las Ofertas</title>
 <!-- =====================================================
@@ -38,9 +38,7 @@
     rel="stylesheet"
     href="style.css"
 >
-<!-- =====================================================
-     CSS USUARIO
-====================================================== -->
+<!-- CSS DE USUARIO -->
 <link
     rel="stylesheet"
     href="usuario/usuario.css"
@@ -63,7 +61,6 @@
     <a
         href="#inicio"
         class="logo"
-        aria-label="El Patrón de las Ofertas"
     >
         <span class="logo-icon">
             ⚡
@@ -97,7 +94,6 @@
 <aside
     class="side-menu"
     id="sideMenu"
-    aria-hidden="true"
 >
 <div class="side-header">
     <div class="side-logo">
@@ -107,38 +103,42 @@
         id="closeMenu"
         class="close-menu"
         type="button"
-        aria-label="Cerrar menú"
     >
         ✕
     </button>
 </div>
 <nav class="side-nav">
     <a href="#inicio">
-        🏠 Inicio
-    </a>
-    <a href="#cupones">
-        🎟️ Cupones
+        🏠
+        <span>Inicio</span>
     </a>
     <a href="#ofertas">
-        🔥 Ofertas
+        🔥
+        <span>Ofertas</span>
     </a>
     <a href="#categorias">
-        🛍️ Categorías
+        🛍️
+        <span>Categorías</span>
     </a>
     <a href="#relampago">
-        ⚡ Relámpago
+        ⚡
+        <span>Cupones Relámpago</span>
     </a>
     <a href="#exclusivos">
-        ⭐ Exclusivos
+        ⭐
+        <span>Cupones Exclusivos</span>
     </a>
     <a href="#bancarios">
-        💳 Bancarios
+        💳
+        <span>Cupones Bancarios</span>
     </a>
     <a href="#premios">
-        🏆 Premios
+        🏆
+        <span>Premios</span>
     </a>
     <a href="#mi-cuenta">
-        👤 Mi cuenta
+        👤
+        <span>Mi cuenta</span>
     </a>
 </nav>
 </aside>
@@ -152,36 +152,427 @@
 <section class="hero">
 <div class="hero-content">
     <span class="hero-badge">
-        🔥 CUPONES Y OFERTAS ACTIVAS
+        🔥 OFERTAS Y CUPONES ACTIVOS
     </span>
     <h1>
-        Los mejores cupones
-        <span>
-            de Mercado Libre
-        </span>
+        Encuentra las mejores
+        <span>ofertas y cupones</span>
     </h1>
     <p>
-        Encuentra cupones, descuentos y las mejores
-        ofertas de Mercado Libre México en un solo lugar.
+        Cupones relámpago, descuentos bancarios,
+        ofertas y productos con grandes descuentos
+        en un solo lugar.
     </p>
     <div class="hero-buttons">
         <a
-            href="#cupones"
+            href="#ofertas"
             class="btn btn-primary"
         >
-            🎟️ VER CUPONES
+            🔥 VER OFERTAS
         </a>
         <a
-            href="#ofertas"
+            href="#relampago"
             class="btn btn-secondary"
         >
-            🔥 VER OFERTAS
+            ⚡ VER CUPONES
         </a>
     </div>
 </div>
 </section>
 <!-- =====================================================
-     BENEFICIO MERCADO PAGO
+     BARRA DE ESTADÍSTICAS
+===================================================== -->
+<section class="quick-stats">
+<div class="quick-stat">
+    <span>
+        🔥
+    </span>
+    <div>
+        <strong>
+            Ofertas
+        </strong>
+        <small>
+            Actualizadas
+        </small>
+    </div>
+</div>
+<div class="quick-stat">
+    <span>
+        🎟️
+    </span>
+    <div>
+        <strong>
+            Cupones
+        </strong>
+        <small>
+            Activos
+        </small>
+    </div>
+</div>
+<div class="quick-stat">
+    <span>
+        💰
+    </span>
+    <div>
+        <strong>
+            Ahorros
+        </strong>
+        <small>
+            Todos los días
+        </small>
+    </div>
+</div>
+<div class="quick-stat">
+    <span>
+        🇲🇽
+    </span>
+    <div>
+        <strong>
+            México
+        </strong>
+        <small>
+            Ofertas nacionales
+        </small>
+    </div>
+</div>
+</section>
+<!-- =====================================================
+     CARRUSEL PRINCIPAL DE OFERTAS
+===================================================== -->
+<section
+    class="products-section"
+    id="ofertas"
+>
+<div class="section-heading">
+    <div>
+        <span class="section-label">
+            🔥 LAS MEJORES
+        </span>
+        <h2>
+            Ofertas destacadas
+        </h2>
+    </div>
+    <span class="section-count">
+        DESLIZA →
+    </span>
+</div>
+<div
+    class="products-carousel-wrapper"
+>
+    <button
+        class="carousel-arrow carousel-prev"
+        id="productsPrev"
+        type="button"
+        aria-label="Oferta anterior"
+    >
+        ‹
+    </button>
+    <div
+        class="products-carousel"
+        id="ofertasCarousel"
+    >
+        <!--
+            Las ofertas se cargarán desde
+            carrusel.js
+        -->
+        <article class="product-card loading-card">
+            <div class="product-image loading">
+            </div>
+            <div class="product-body">
+                <div class="loading-line"></div>
+                <div class="loading-line short"></div>
+                <div class="loading-price"></div>
+            </div>
+        </article>
+        <article class="product-card loading-card">
+            <div class="product-image loading">
+            </div>
+            <div class="product-body">
+                <div class="loading-line"></div>
+                <div class="loading-line short"></div>
+                <div class="loading-price"></div>
+            </div>
+        </article>
+    </div>
+    <button
+        class="carousel-arrow carousel-next"
+        id="productsNext"
+        type="button"
+        aria-label="Siguiente oferta"
+    >
+        ›
+    </button>
+</div>
+<div
+    class="carousel-progress"
+    id="ofertasDots"
+></div>
+</section>
+<!-- =====================================================
+     CATEGORÍAS
+===================================================== -->
+<section
+    class="categories-section"
+    id="categorias"
+>
+<div class="section-heading centered">
+    <div>
+        <span class="section-label">
+            🛍️ ENCUENTRA LO QUE BUSCAS
+        </span>
+        <h2>
+            Categorías
+        </h2>
+    </div>
+</div>
+<div class="categories-grid">
+    <a
+        href="#celulares"
+        class="category-card"
+    >
+        <div class="category-icon phone">
+            📱
+        </div>
+        <strong>
+            Celulares
+        </strong>
+        <span>
+            Smartphones y accesorios
+        </span>
+    </a>
+    <a
+        href="#pantallas"
+        class="category-card"
+    >
+        <div class="category-icon tv">
+            📺
+        </div>
+        <strong>
+            Pantallas
+        </strong>
+        <span>
+            Smart TV y televisores
+        </span>
+    </a>
+    <a
+        href="#videojuegos"
+        class="category-card"
+    >
+        <div class="category-icon games">
+            🎮
+        </div>
+        <strong>
+            Videojuegos
+        </strong>
+        <span>
+            Consolas y juegos
+        </span>
+    </a>
+    <a
+        href="#laptops"
+        class="category-card"
+    >
+        <div class="category-icon laptop">
+            💻
+        </div>
+        <strong>
+            Laptops
+        </strong>
+        <span>
+            Computadoras y gaming
+        </span>
+    </a>
+    <a
+        href="#electronica"
+        class="category-card"
+    >
+        <div class="category-icon audio">
+            🎧
+        </div>
+        <strong>
+            Electrónica
+        </strong>
+        <span>
+            Audio y tecnología
+        </span>
+    </a>
+    <a
+        href="#hogar"
+        class="category-card"
+    >
+        <div class="category-icon home">
+            🏠
+        </div>
+        <strong>
+            Hogar
+        </strong>
+        <span>
+            Productos para casa
+        </span>
+    </a>
+</div>
+</section>
+<!-- =====================================================
+     CATEGORÍAS / CARRUSELES
+===================================================== -->
+<section
+    class="category-products-section"
+    id="celulares"
+>
+<div class="section-heading">
+    <div>
+        <span class="section-label">
+            📱 TECNOLOGÍA
+        </span>
+        <h2>
+            Ofertas en celulares
+        </h2>
+    </div>
+    <a
+        href="#celulares"
+        class="view-more"
+    >
+        Ver más →
+    </a>
+</div>
+<div
+    class="category-carousel"
+    id="celularesCarousel"
+>
+</div>
+</section>
+<section
+    class="category-products-section"
+    id="pantallas"
+>
+<div class="section-heading">
+    <div>
+        <span class="section-label">
+            📺 ENTRETENIMIENTO
+        </span>
+        <h2>
+            Pantallas
+        </h2>
+    </div>
+    <a
+        href="#pantallas"
+        class="view-more"
+    >
+        Ver más →
+    </a>
+</div>
+<div
+    class="category-carousel"
+    id="pantallasCarousel"
+>
+</div>
+</section>
+<section
+    class="category-products-section"
+    id="videojuegos"
+>
+<div class="section-heading">
+    <div>
+        <span class="section-label">
+            🎮 GAMING
+        </span>
+        <h2>
+            Videojuegos
+        </h2>
+    </div>
+    <a
+        href="#videojuegos"
+        class="view-more"
+    >
+        Ver más →
+    </a>
+</div>
+<div
+    class="category-carousel"
+    id="videojuegosCarousel"
+>
+</div>
+</section>
+<section
+    class="category-products-section"
+    id="laptops"
+>
+<div class="section-heading">
+    <div>
+        <span class="section-label">
+            💻 COMPUTACIÓN
+        </span>
+        <h2>
+            Laptops y computadoras
+        </h2>
+    </div>
+    <a
+        href="#laptops"
+        class="view-more"
+    >
+        Ver más →
+    </a>
+</div>
+<div
+    class="category-carousel"
+    id="laptopsCarousel"
+>
+</div>
+</section>
+<section
+    class="category-products-section"
+    id="electronica"
+>
+<div class="section-heading">
+    <div>
+        <span class="section-label">
+            🎧 TECNOLOGÍA
+        </span>
+        <h2>
+            Electrónica
+        </h2>
+    </div>
+    <a
+        href="#electronica"
+        class="view-more"
+    >
+        Ver más →
+    </a>
+</div>
+<div
+    class="category-carousel"
+    id="electronicaCarousel"
+>
+</div>
+</section>
+<section
+    class="category-products-section"
+    id="hogar"
+>
+<div class="section-heading">
+    <div>
+        <span class="section-label">
+            🏠 HOGAR
+        </span>
+        <h2>
+            Ofertas para el hogar
+        </h2>
+    </div>
+    <a
+        href="#hogar"
+        class="view-more"
+    >
+        Ver más →
+    </a>
+</div>
+<div
+    class="category-carousel"
+    id="hogarCarousel"
+>
+</div>
+</section>
+<!-- =====================================================
+     MERCADO PAGO
 ===================================================== -->
 <section class="promo-section">
 <div class="promo-card">
@@ -202,244 +593,10 @@
     </div>
     <button
         class="promo-btn"
-        id="mercadoPagoBtn"
         type="button"
     >
         VER BENEFICIO
     </button>
-</div>
-</section>
-<!-- =====================================================
-     CATEGORÍAS
-===================================================== -->
-<section
-    class="categories-section"
-    id="categorias"
->
-<div class="section-heading">
-    <div>
-        <span class="section-label">
-            🛍️ ENCUENTRA LO QUE BUSCAS
-        </span>
-        <h2>
-            Categorías
-        </h2>
-    </div>
-</div>
-<div
-    class="categories"
-    id="categoriesContainer"
->
-    <a
-        href="categorias/pantallas.html"
-        class="category"
-    >
-        <div class="category-icon">
-            📺
-        </div>
-        <strong>
-            Pantallas
-        </strong>
-        <span>
-            Smart TV y más
-        </span>
-    </a>
-    <a
-        href="categorias/videojuegos.html"
-        class="category"
-    >
-        <div class="category-icon">
-            🎮
-        </div>
-        <strong>
-            Videojuegos
-        </strong>
-        <span>
-            Consolas y juegos
-        </span>
-    </a>
-    <a
-        href="categorias/celulares.html"
-        class="category"
-    >
-        <div class="category-icon">
-            📱
-        </div>
-        <strong>
-            Celulares
-        </strong>
-        <span>
-            Smartphones
-        </span>
-    </a>
-    <a
-        href="categorias/laptops.html"
-        class="category"
-    >
-        <div class="category-icon">
-            💻
-        </div>
-        <strong>
-            Laptops
-        </strong>
-        <span>
-            Computadoras
-        </span>
-    </a>
-    <a
-        href="categorias/electronica.html"
-        class="category"
-    >
-        <div class="category-icon">
-            🎧
-        </div>
-        <strong>
-            Electrónica
-        </strong>
-        <span>
-            Tecnología
-        </span>
-    </a>
-    <a
-        href="categorias/moda.html"
-        class="category"
-    >
-        <div class="category-icon">
-            👟
-        </div>
-        <strong>
-            Moda
-        </strong>
-        <span>
-            Ropa y calzado
-        </span>
-    </a>
-    <a
-        href="categorias/hogar.html"
-        class="category"
-    >
-        <div class="category-icon">
-            🏠
-        </div>
-        <strong>
-            Hogar
-        </strong>
-        <span>
-            Todo para casa
-        </span>
-    </a>
-    <a
-        href="categorias/escolar.html"
-        class="category"
-    >
-        <div class="category-icon">
-            🎒
-        </div>
-        <strong>
-            Escolar
-        </strong>
-        <span>
-            Regreso a clases
-        </span>
-    </a>
-    <a
-        href="categorias/juguetes.html"
-        class="category"
-    >
-        <div class="category-icon">
-            🧸
-        </div>
-        <strong>
-            Juguetes
-        </strong>
-        <span>
-            Ofertas para niños
-        </span>
-    </a>
-</div>
-</section>
-<!-- =====================================================
-     CARRUSEL PRINCIPAL DE OFERTAS
-===================================================== -->
-<section
-    class="offers-section"
-    id="ofertas"
->
-<div class="section-heading">
-    <div>
-        <span class="section-label">
-            🔥 OFERTAS DESTACADAS
-        </span>
-        <h2>
-            Ofertas que no te puedes perder
-        </h2>
-    </div>
-    <span class="section-count">
-        ⚡ EN VIVO
-    </span>
-</div>
-<div
-    class="offers-carousel-wrapper"
-    id="offersCarouselWrapper"
->
-    <button
-        class="carousel-arrow carousel-prev"
-        id="offersPrev"
-        type="button"
-        aria-label="Oferta anterior"
-    >
-        ‹
-    </button>
-    <div
-        class="offers-carousel"
-        id="offersCarousel"
-    >
-        <div class="empty-card">
-            <div>
-                🔥
-            </div>
-            <strong>
-                Cargando ofertas...
-            </strong>
-            <span>
-                Estamos buscando las mejores ofertas.
-            </span>
-        </div>
-    </div>
-    <button
-        class="carousel-arrow carousel-next"
-        id="offersNext"
-        type="button"
-        aria-label="Siguiente oferta"
-    >
-        ›
-    </button>
-</div>
-<div
-    class="carousel-dots"
-    id="offersDots"
->
-</div>
-</section>
-<!-- =====================================================
-     CUPONES
-===================================================== -->
-<section
-    class="coupon-section"
-    id="cupones"
->
-<div class="section-heading">
-    <div>
-        <span class="section-label">
-            🎟️ DESCUENTOS
-        </span>
-        <h2>
-            Cupones disponibles
-        </h2>
-    </div>
-    <span class="section-count">
-        🔥 ACTIVOS
-    </span>
 </div>
 </section>
 <!-- =====================================================
@@ -478,10 +635,12 @@
         </span>
     </div>
 </div>
-<div
-    class="carousel-dots"
-    id="relampagoDots"
->
+<div class="carousel-dots">
+    <span class="active"></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
 </div>
 </section>
 <!-- =====================================================
@@ -570,14 +729,14 @@
         ¡Compra y gana!
     </h2>
     <p>
-        Regístrate opcionalmente, utiliza nuestros
-        cupones y acumula estadísticas.
+        Regístrate, utiliza nuestros cupones
+        y acumula estadísticas de tus compras.
     </p>
     <div class="reward-features">
         <div>
             👀
             <span>
-                Visitas
+                Tus visitas
             </span>
         </div>
         <div>
@@ -619,12 +778,16 @@
     <div class="account-icon">
         👤
     </div>
+    <span class="section-label">
+        PERFIL
+    </span>
     <h2>
         Mi cuenta
     </h2>
     <p>
-        Regístrate opcionalmente para participar
-        en el programa de premios.
+        Regístrate para guardar tus estadísticas,
+        participar en premios y llevar el control
+        de tus cupones.
     </p>
     <button
         class="btn btn-primary"
@@ -643,7 +806,7 @@
     ⚡ EL PATRÓN DE LAS OFERTAS
 </div>
 <p>
-    Cupones y ofertas de Mercado Libre México.
+    Cupones, ofertas y descuentos de Mercado Libre México.
 </p>
 <div class="footer-links">
     <a href="#inicio">
@@ -652,14 +815,14 @@
     <a href="#ofertas">
         Ofertas
     </a>
-    <a href="#cupones">
-        Cupones
+    <a href="#relampago">
+        Relámpago
     </a>
-    <a href="#categorias">
-        Categorías
+    <a href="#exclusivos">
+        Exclusivos
     </a>
-    <a href="#premios">
-        Premios
+    <a href="#bancarios">
+        Bancarios
     </a>
     <a href="#mi-cuenta">
         Mi cuenta
@@ -676,12 +839,9 @@
 <div
     id="toast"
     class="toast"
-    role="status"
-    aria-live="polite"
->
-</div>
+></div>
 <!-- =====================================================
-     MENÚ PRINCIPAL
+     MENÚ JAVASCRIPT
 ===================================================== -->
 <script>
 const menuBtn =
@@ -695,18 +855,12 @@ const menuOverlay =
 function abrirMenu() {
     sideMenu.classList.add("active");
     menuOverlay.classList.add("active");
-    sideMenu.setAttribute(
-        "aria-hidden",
-        "false"
-    );
+    document.body.classList.add("menu-open");
 }
 function cerrarMenu() {
     sideMenu.classList.remove("active");
     menuOverlay.classList.remove("active");
-    sideMenu.setAttribute(
-        "aria-hidden",
-        "true"
-    );
+    document.body.classList.remove("menu-open");
 }
 menuBtn?.addEventListener(
     "click",
@@ -728,40 +882,30 @@ document
             cerrarMenu
         );
     });
-document.addEventListener(
-    "keydown",
-    evento => {
-        if (
-            evento.key === "Escape"
-        ) {
-            cerrarMenu();
+/*
+    Botones de cuenta.
+    usuario.js se encargará del registro.
+*/
+document
+    .getElementById("userBtn")
+    ?.addEventListener(
+        "click",
+        () => {
+            document
+                .getElementById("mi-cuenta")
+                ?.scrollIntoView({
+                    behavior: "smooth"
+                });
         }
-    }
-);
+    );
 </script>
 <!-- =====================================================
-     APP PRINCIPAL
+     ARCHIVOS DE LA APLICACIÓN
 ===================================================== -->
-<script
-    src="app/home.js"
-></script>
-<script
-    src="app/mercado-libre.js"
-></script>
-<script
-    src="app/cupones.js"
-></script>
-<script
-    src="app/carrusel.js"
-></script>
-<script
-    src="app/categorias.js"
-></script>
-<!-- =====================================================
-     SISTEMA DE USUARIO
-===================================================== -->
-<script
-    src="usuario/usuario.js"
-></script>
+<script src="home.js"></script>
+<script src="mercado-libre.js"></script>
+<script src="cupones.js"></script>
+<script src="carrusel.js"></script>
+<script src="usuario/usuario.js"></script>
 </body>
 </html>
