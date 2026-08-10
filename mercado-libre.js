@@ -7,11 +7,6 @@ console.log("🛒 MERCADO-LIBRE.JS CARGADO");
 // =====================================================
 // CONFIGURACIÓN
 // =====================================================
-// IMPORTANTE:
-// Aquí colocaremos el enlace de afiliado definitivo.
-//
-// Por ahora NO ponemos un enlace real para evitar
-// mandar tráfico a un destino incorrecto.
 const ENLACE_AFILIADO =
     "https://meli.la/1mj3itE";
 // =====================================================
@@ -30,8 +25,13 @@ function esIOS() {
 // =====================================================
 // ABRIR MERCADO LIBRE
 // =====================================================
-function abrirMercadoLibre(link = ENLACE_AFILIADO) {
-    if (!link || link === "#") {
+function abrirMercadoLibre(
+    link = ENLACE_AFILIADO
+) {
+    if (
+        !link ||
+        link === "#"
+    ) {
         if (window.mostrarToast) {
             window.mostrarToast(
                 "⚠️ Enlace de Mercado Libre pendiente"
@@ -77,13 +77,10 @@ function abrirMercadoLibre(link = ENLACE_AFILIADO) {
     // =================================================
     if (esIOS()) {
         /*
-         * En iOS el navegador controla mucho más
-         * estrictamente la apertura de aplicaciones.
+         * iOS decide si el enlace puede abrir
+         * directamente la aplicación.
          *
-         * Primero usamos el enlace normal de afiliado.
-         *
-         * Mercado Libre puede decidir abrir la app
-         * automáticamente.
+         * Conservamos el enlace de afiliado.
          */
         window.location.href =
             link;
@@ -96,7 +93,7 @@ function abrirMercadoLibre(link = ENLACE_AFILIADO) {
         link;
 }
 // =====================================================
-// COPIAR CUPÓN
+// COPIAR CUPÓN + REGISTRAR + ABRIR
 // =====================================================
 async function copiarYabrirMercadoLibre(
     codigo,
@@ -111,6 +108,9 @@ async function copiarYabrirMercadoLibre(
         return;
     }
     try {
+        // =================================================
+        // COPIAR CUPÓN
+        // =================================================
         await navigator.clipboard.writeText(
             codigo
         );
@@ -118,7 +118,9 @@ async function copiarYabrirMercadoLibre(
             "📋 Cupón copiado:",
             codigo
         );
-        // Registrar copia local
+        // =================================================
+        // ESTADÍSTICA GENERAL LOCAL
+        // =================================================
         let copias =
             parseInt(
                 localStorage.getItem(
@@ -130,13 +132,26 @@ async function copiarYabrirMercadoLibre(
             "copiasPatron",
             copias
         );
+        // =================================================
+        // ESTADÍSTICA DEL USUARIO
+        // =================================================
+        if (
+            typeof window.registrarCopiaUsuario
+            === "function"
+        ) {
+            window.registrarCopiaUsuario();
+        }
+        // =================================================
+        // MENSAJE
+        // =================================================
         if (window.mostrarToast) {
             window.mostrarToast(
                 "✅ Cupón copiado"
             );
         }
-        // Pequeña pausa para que el usuario
-        // vea la confirmación.
+        // =================================================
+        // ABRIR MERCADO LIBRE
+        // =================================================
         setTimeout(() => {
             abrirMercadoLibre(
                 link
@@ -156,7 +171,7 @@ async function copiarYabrirMercadoLibre(
     }
 }
 // =====================================================
-// HACER FUNCIONES DISPONIBLES
+// FUNCIONES GLOBALES
 // =====================================================
 window.abrirMercadoLibre =
     abrirMercadoLibre;
