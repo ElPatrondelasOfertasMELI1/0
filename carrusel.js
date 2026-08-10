@@ -136,6 +136,7 @@ document.addEventListener("DOMContentLoaded", () => {
             iniciar();
         }
     );
+    
     // =================================================
     // REINICIAR CUANDO CAMBIA EL TAMAÑO
     // =================================================
