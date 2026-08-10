@@ -1,72 +1,75 @@
 // =====================================================
-// EL PATRÓN DE LAS OFERTAS
-// APP.JS — NUEVO SITIO
-// Mercado Libre México
+// ⚡ EL PATRÓN DE LAS OFERTAS
+// HOME.JS
+// NUEVO REPOSITORIO
 // =====================================================
 // =====================================================
-// CONFIGURACIÓN GENERAL
+// CONFIGURACIÓN
 // =====================================================
-// Enlace de afiliado de Mercado Libre.
-// Se utilizará cuando el usuario pulse los botones.
 const LINK_MERCADO_LIBRE =
     "https://meli.la/1mj3itE";
 // =====================================================
-// ELEMENTOS PRINCIPALES
+// ELEMENTOS
 // =====================================================
-const carrusel =
-    document.getElementById("carrusel");
-const cuponesRelampago =
-    document.getElementById("cuponesRelampago");
-const cuponesBancarios =
-    document.getElementById("cuponesBancarios");
-const cuponesExclusivos =
-    document.getElementById("cuponesExclusivos");
+const relampagoCarousel =
+    document.getElementById(
+        "relampagoCarousel"
+    );
+const exclusivosGrid =
+    document.getElementById(
+        "exclusivosGrid"
+    );
+const bancariosGrid =
+    document.getElementById(
+        "bancariosGrid"
+    );
 const toast =
-    document.getElementById("toast");
-// =====================================================
-// VARIABLES
-// =====================================================
-let intervaloCarrusel = null;
-let carruselActivo = true;
+    document.getElementById(
+        "toast"
+    );
 // =====================================================
 // TOAST
 // =====================================================
-function mostrarToast(texto) {
+function mostrarToast(mensaje) {
     if (!toast) return;
-    toast.textContent = texto;
-    toast.classList.add("show");
-    clearTimeout(
-        mostrarToast.timer
+    toast.textContent =
+        mensaje;
+    toast.classList.add(
+        "show"
     );
-    mostrarToast.timer =
+    clearTimeout(
+        window.toastTimer
+    );
+    window.toastTimer =
         setTimeout(() => {
-            toast.classList.remove("show");
+            toast.classList.remove(
+                "show"
+            );
         }, 2200);
 }
 // =====================================================
-// ABRIR MERCADO LIBRE
+// MERCADO LIBRE
 // =====================================================
-//
-// Intenta abrir la aplicación de Mercado Libre.
-// Si el dispositivo no permite el intento,
-// utiliza el enlace web.
-//
-// NO se utiliza window.open() para el botón
-// de copiar cupón, para evitar el problema
-// de los dos clics que teníamos anteriormente.
-// =====================================================
-function abrirMercadoLibre(url) {
-    const destino =
-        url ||
-        LINK_MERCADO_LIBRE;
-    const esAndroid =
+function abrirMercadoLibre(
+    enlace = LINK_MERCADO_LIBRE
+) {
+    if (!enlace) {
+        enlace =
+            LINK_MERCADO_LIBRE;
+    }
+    /*
+     * Android:
+     * Intentamos abrir directamente
+     * la aplicación de Mercado Libre.
+     */
+    if (
         /Android/i.test(
             navigator.userAgent
-        );
-    if (esAndroid) {
+        )
+    ) {
         try {
             const limpio =
-                destino.replace(
+                enlace.replace(
                     /^https?:\/\//,
                     ""
                 );
@@ -81,166 +84,207 @@ function abrirMercadoLibre(url) {
         }
         catch (error) {
             console.log(
-                "No se pudo abrir la app:",
+                "Error abriendo Mercado Libre:",
                 error
             );
         }
     }
-    // iPhone / iPad / otros dispositivos
-    window.location.href = destino;
+    /*
+     * iPhone / iPad / escritorio
+     */
+    window.location.href =
+        enlace;
 }
 // =====================================================
 // COPIAR CUPÓN
 // =====================================================
-async function copiarCupon(codigo, link) {
+async function copiarCupon(
+    codigo,
+    enlace
+) {
     if (!codigo) {
         mostrarToast(
             "❌ Cupón no disponible"
         );
         return;
     }
+    let copiado = false;
+    // =================================================
+    // MÉTODO PRINCIPAL
+    // =================================================
     try {
-        await navigator.clipboard.writeText(
-            codigo
-        );
-        mostrarToast(
-            "✅ Cupón copiado: " + codigo
-        );
+        if (
+            navigator.clipboard &&
+            window.isSecureContext
+        ) {
+            await navigator.clipboard.writeText(
+                codigo
+            );
+            copiado = true;
+        }
     }
     catch (error) {
-        console.error(
-            "Error copiando cupón:",
+        console.log(
+            "Clipboard API:",
             error
         );
-        // Método alternativo
-        const textarea =
-            document.createElement(
-                "textarea"
-            );
-        textarea.value = codigo;
-        textarea.style.position =
-            "fixed";
-        textarea.style.opacity =
-            "0";
-        document.body.appendChild(
-            textarea
-        );
-        textarea.select();
-        try {
-            document.execCommand(
-                "copy"
-            );
-            mostrarToast(
-                "✅ Cupón copiado"
-            );
-        }
-        catch (error2) {
-            mostrarToast(
-                "❌ No se pudo copiar"
-            );
-        }
-        textarea.remove();
     }
-    // Abrir Mercado Libre después de copiar
-    setTimeout(() => {
-        abrirMercadoLibre(
-            link || LINK_MERCADO_LIBRE
+    // =================================================
+    // MÉTODO ALTERNATIVO
+    // =================================================
+    if (!copiado) {
+        try {
+            const textarea =
+                document.createElement(
+                    "textarea"
+                );
+            textarea.value =
+                codigo;
+            textarea.style.position =
+                "fixed";
+            textarea.style.left =
+                "-9999px";
+            textarea.style.top =
+                "0";
+            document.body.appendChild(
+                textarea
+            );
+            textarea.focus();
+            textarea.select();
+            copiado =
+                document.execCommand(
+                    "copy"
+                );
+            textarea.remove();
+        }
+        catch (error) {
+            console.log(
+                "Error método alternativo:",
+                error
+            );
+        }
+    }
+    // =================================================
+    // RESULTADO
+    // =================================================
+    if (copiado) {
+        mostrarToast(
+            "✅ Cupón copiado: " +
+            codigo
         );
-    }, 150);
+        /*
+         * Esperamos un instante para que
+         * el navegador termine la acción
+         * de copiar.
+         */
+        setTimeout(() => {
+            abrirMercadoLibre(
+                enlace ||
+                LINK_MERCADO_LIBRE
+            );
+        }, 180);
+    }
+    else {
+        mostrarToast(
+            "❌ No se pudo copiar el cupón"
+        );
+    }
 }
 // =====================================================
-// CREAR TARJETA DE CUPÓN
+// CREAR CUPÓN
 // =====================================================
-function crearTarjetaCupon(cupon) {
+function crearCuponCard(
+    cupon
+) {
     const tarjeta =
         document.createElement(
             "div"
         );
     tarjeta.className =
-        "cuponCard";
-    // ---------------------------------------------
+        "cupon-card";
+    // =================================================
     // ESTADO
-    // ---------------------------------------------
-    let estadoTexto =
+    // =================================================
+    let estado =
         "🟢 DISPONIBLE";
     if (
         cupon.estado ===
         "agotando"
     ) {
-        estadoTexto =
+        estado =
             "⚡ ÚLTIMAS PIEZAS";
     }
     if (
         cupon.estado ===
         "agotado"
     ) {
-        estadoTexto =
+        estado =
             "🔴 AGOTADO";
     }
-    // ---------------------------------------------
+    // =================================================
     // DESCUENTO
-    // ---------------------------------------------
-    let descuentoTexto =
+    // =================================================
+    let descuento =
         "";
     if (
         cupon.tipoDescuento ===
         "porcentaje"
     ) {
-        descuentoTexto =
+        descuento =
             `${cupon.descuento || 0}% OFF`;
     }
     else {
-        descuentoTexto =
+        descuento =
             `$${cupon.descuento || 0} OFF`;
     }
-    // ---------------------------------------------
+    // =================================================
     // TOPE
-    // ---------------------------------------------
-    let topeHTML =
-        "";
+    // =================================================
+    let tope = "";
     if (
         cupon.tipoDescuento ===
-        "porcentaje" &&
+            "porcentaje" &&
         cupon.tope
     ) {
-        topeHTML = `
+        tope = `
             <p>
                 🔝 Tope máximo:
                 $${cupon.tope}
             </p>
         `;
     }
-    // ---------------------------------------------
-    // CUPÓN AGOTADO
-    // ---------------------------------------------
-    const deshabilitado =
+    // =================================================
+    // BOTÓN
+    // =================================================
+    const botonDeshabilitado =
         cupon.estado ===
         "agotado";
     tarjeta.innerHTML = `
-        <div class="estado">
-            ${estadoTexto}
+        <div class="coupon-status">
+            ${estado}
         </div>
         <h3>
-            🎟️ ${cupon.nombre || "CUPÓN"}
+            🎟️
+            ${cupon.nombre || "CUPÓN"}
         </h3>
-        <div class="cuponDescuento">
-            ${descuentoTexto}
+        <div class="coupon-discount">
+            ${descuento}
         </div>
         <p>
             🛒 Compra mínima:
             $${cupon.minimo || 0}
         </p>
-        ${topeHTML}
+        ${tope}
         <button
-            class="copiarCupon"
-            ${deshabilitado ? "disabled" : ""}
+            class="coupon-copy-btn"
+            ${botonDeshabilitado ? "disabled" : ""}
         >
             📋 COPIAR CUPÓN
         </button>
     `;
     const boton =
         tarjeta.querySelector(
-            ".copiarCupon"
+            ".coupon-copy-btn"
         );
     if (boton) {
         boton.addEventListener(
@@ -257,61 +301,11 @@ function crearTarjetaCupon(cupon) {
     return tarjeta;
 }
 // =====================================================
-// MOSTRAR CUPONES
-// =====================================================
-function mostrarCupones(lista) {
-    if (cuponesRelampago) {
-        cuponesRelampago.innerHTML =
-            "";
-    }
-    if (cuponesBancarios) {
-        cuponesBancarios.innerHTML =
-            "";
-    }
-    if (cuponesExclusivos) {
-        cuponesExclusivos.innerHTML =
-            "";
-    }
-    lista.forEach(cupon => {
-        const tarjeta =
-            crearTarjetaCupon(
-                cupon
-            );
-        if (
-            cupon.tipo ===
-            "relampago"
-        ) {
-            cuponesRelampago
-                ?.appendChild(
-                    tarjeta
-                );
-        }
-        else if (
-            cupon.tipo ===
-            "bancario"
-        ) {
-            cuponesBancarios
-                ?.appendChild(
-                    tarjeta
-                );
-        }
-        else {
-            cuponesExclusivos
-                ?.appendChild(
-                    tarjeta
-                );
-        }
-    });
-}
-// =====================================================
-// DATOS DE PRUEBA
+// CUPONES DE PRUEBA
 // =====================================================
 //
-// Después sustituiremos esto por Firestore.
-// No necesitamos Storage.
-//
-// Las imágenes de ofertas podrán utilizar:
-// data:image/...;base64,...
+// Estos son temporales.
+// Después serán reemplazados por Firestore.
 // =====================================================
 const cuponesDemo = [
     {
@@ -321,6 +315,16 @@ const cuponesDemo = [
         tipoDescuento: "pesos",
         descuento: 500,
         minimo: 4000,
+        estado: "activo",
+        link: LINK_MERCADO_LIBRE
+    },
+    {
+        codigo: "DEMO800",
+        nombre: "Cupón Relámpago $800",
+        tipo: "relampago",
+        tipoDescuento: "pesos",
+        descuento: 800,
+        minimo: 8000,
         estado: "activo",
         link: LINK_MERCADO_LIBRE
     },
@@ -336,65 +340,183 @@ const cuponesDemo = [
         link: LINK_MERCADO_LIBRE
     },
     {
+        codigo: "DEMO25",
+        nombre: "Cupón Bancario 25%",
+        tipo: "bancario",
+        tipoDescuento: "porcentaje",
+        descuento: 25,
+        tope: 2000,
+        minimo: 7000,
+        estado: "agotando",
+        link: LINK_MERCADO_LIBRE
+    },
+    {
         codigo: "DEMOMELI",
         nombre: "Cupón Exclusivo",
         tipo: "exclusivo",
         tipoDescuento: "pesos",
         descuento: 300,
         minimo: 2500,
-        estado: "agotando",
+        estado: "activo",
         link: LINK_MERCADO_LIBRE
     }
 ];
 // =====================================================
-// CARRUSEL DE OFERTAS
+// MOSTRAR CUPONES
 // =====================================================
-function iniciarCarrusel() {
-    if (!carrusel) return;
-    clearInterval(
-        intervaloCarrusel
-    );
-    intervaloCarrusel =
-        setInterval(() => {
-            if (!carruselActivo)
-                return;
-            carrusel.scrollBy({
-                left: 300,
-                behavior: "smooth"
-            });
+function cargarCuponesDemo() {
+    if (relampagoCarousel) {
+        relampagoCarousel.innerHTML =
+            "";
+    }
+    if (exclusivosGrid) {
+        exclusivosGrid.innerHTML =
+            "";
+    }
+    if (bancariosGrid) {
+        bancariosGrid.innerHTML =
+            "";
+    }
+    cuponesDemo.forEach(
+        cupon => {
+            const tarjeta =
+                crearCuponCard(
+                    cupon
+                );
+            // -----------------------------------------
+            // RELÁMPAGO
+            // -----------------------------------------
             if (
-                carrusel.scrollLeft +
-                carrusel.clientWidth >=
-                carrusel.scrollWidth - 20
+                cupon.tipo ===
+                "relampago"
             ) {
-                carrusel.scrollTo({
+                relampagoCarousel
+                    ?.appendChild(
+                        tarjeta
+                    );
+            }
+            // -----------------------------------------
+            // BANCARIOS
+            // -----------------------------------------
+            else if (
+                cupon.tipo ===
+                "bancario"
+            ) {
+                bancariosGrid
+                    ?.appendChild(
+                        tarjeta
+                    );
+            }
+            // -----------------------------------------
+            // EXCLUSIVOS
+            // -----------------------------------------
+            else {
+                exclusivosGrid
+                    ?.appendChild(
+                        tarjeta
+                    );
+            }
+        }
+    );
+}
+// =====================================================
+// CARRUSEL RELÁMPAGO
+// =====================================================
+let carruselIntervalo =
+    null;
+function iniciarCarrusel() {
+    if (!relampagoCarousel)
+        return;
+    clearInterval(
+        carruselIntervalo
+    );
+    carruselIntervalo =
+        setInterval(() => {
+            /*
+             * Si el usuario está tocando
+             * el carrusel no avanzamos.
+             */
+            if (
+                window.carruselPausado
+            ) {
+                return;
+            }
+            const paso =
+                290;
+            const maxScroll =
+                relampagoCarousel.scrollWidth -
+                relampagoCarousel.clientWidth;
+            if (
+                relampagoCarousel.scrollLeft >=
+                maxScroll - 10
+            ) {
+                relampagoCarousel.scrollTo({
                     left: 0,
+                    behavior: "smooth"
+                });
+            }
+            else {
+                relampagoCarousel.scrollBy({
+                    left: paso,
                     behavior: "smooth"
                 });
             }
         }, 3500);
 }
 // =====================================================
-// PAUSAR CARRUSEL AL TOCAR
+// PAUSA DEL CARRUSEL
 // =====================================================
-if (carrusel) {
-    carrusel.addEventListener(
+if (relampagoCarousel) {
+    relampagoCarousel.addEventListener(
         "touchstart",
         () => {
-            carruselActivo =
-                false;
+            window.carruselPausado =
+                true;
         }
     );
-    carrusel.addEventListener(
+    relampagoCarousel.addEventListener(
         "touchend",
         () => {
-            setTimeout(() => {
-                carruselActivo =
-                    true;
-            }, 1500);
+            setTimeout(
+                () => {
+                    window.carruselPausado =
+                        false;
+                },
+                1500
+            );
         }
     );
 }
+// =====================================================
+// USUARIO LOCAL
+// =====================================================
+//
+// De momento no requiere registro.
+// Después lo conectaremos con Firebase
+// Authentication.
+// =====================================================
+function obtenerUsuarioLocal() {
+    let usuario =
+        localStorage.getItem(
+            "patron_usuario"
+        );
+    if (!usuario) {
+        usuario =
+            "usr_" +
+            Date.now() +
+            "_" +
+            Math.floor(
+                Math.random() *
+                99999
+            );
+        localStorage.setItem(
+            "patron_usuario",
+            usuario
+        );
+    }
+    return usuario;
+}
+obtenerUsuarioLocal();
 // =====================================================
 // BOTÓN VOLVER ARRIBA
 // =====================================================
@@ -423,58 +545,57 @@ if (btnArriba) {
     );
 }
 // =====================================================
-// REGISTRO OPCIONAL DE USUARIO
+// BOTONES DE CUENTA
 // =====================================================
-//
-// Por ahora solamente guardamos un identificador
-// local. Más adelante conectaremos el registro
-// con Firebase Authentication.
-//
-// NO requiere Storage.
+const userBtn =
+    document.getElementById(
+        "userBtn"
+    );
+const accountBtn =
+    document.getElementById(
+        "accountBtn"
+    );
+const registerRewardBtn =
+    document.getElementById(
+        "registerRewardBtn"
+    );
+function abrirCuenta() {
+    mostrarToast(
+        "👤 Próximamente: registro de usuario"
+    );
+}
+userBtn?.addEventListener(
+    "click",
+    abrirCuenta
+);
+accountBtn?.addEventListener(
+    "click",
+    abrirCuenta
+);
+registerRewardBtn?.addEventListener(
+    "click",
+    abrirCuenta
+);
 // =====================================================
-function obtenerUsuarioLocal() {
-    let usuario =
-        localStorage.getItem(
-            "patron_usuario"
-        );
-    if (!usuario) {
-        usuario =
-            "usr_" +
-            Date.now() +
-            "_" +
-            Math.floor(
-                Math.random() * 99999
-            );
-        localStorage.setItem(
-            "patron_usuario",
-            usuario
+// PROMOCIÓN MERCADO PAGO
+// =====================================================
+const promoBtn =
+    document.querySelector(
+        ".promo-btn"
+    );
+promoBtn?.addEventListener(
+    "click",
+    () => {
+        abrirMercadoLibre(
+            LINK_MERCADO_LIBRE
         );
     }
-    return usuario;
-}
-// Crear ID local desde la primera visita
-obtenerUsuarioLocal();
+);
 // =====================================================
 // INICIO
 // =====================================================
-mostrarCupones(
-    cuponesDemo
-);
+cargarCuponesDemo();
 iniciarCarrusel();
 // =====================================================
-// EXPORTAR FUNCIONES
-// =====================================================
-//
-// Permite utilizarlas desde otros módulos.
-// =====================================================
-export {
-    mostrarToast,
-    abrirMercadoLibre,
-    copiarCupon,
-    crearTarjetaCupon,
-    mostrarCupones,
-    obtenerUsuarioLocal
-};
-// =====================================================
-// FIN APP.JS
+// FIN
 // =====================================================
