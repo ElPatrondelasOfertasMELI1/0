@@ -1,312 +1,429 @@
 // =====================================================
 // ⚡ EL PATRÓN DE LAS OFERTAS
 // USUARIO.JS
-// Registro + estadísticas personales
-// Firestore: SOLO DATOS
-// Sin Firebase Storage
+// Sistema de usuario opcional
+// Estadísticas locales
 // =====================================================
 console.log("👤 USUARIO.JS CARGADO");
-import {
-    initializeApp
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import {
-    getFirestore,
-    doc,
-    getDoc,
-    setDoc,
-    updateDoc,
-    increment,
-    serverTimestamp
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 // =====================================================
-// FIREBASE
+// CONFIGURACIÓN
 // =====================================================
-const firebaseConfig = {
-    apiKey:
-        "AIzaSyBo_wk-k8TrcSl0MQzQ0hoUCvAKre94hW0",
-    authDomain:
-        "patronofertasweb.firebaseapp.com",
-    projectId:
-        "patronofertasweb",
-    storageBucket:
-        "patronofertasweb.firebasestorage.app",
-    messagingSenderId:
-        "292338334268",
-    appId:
-        "1:292338334268:web:9dbbafe00dd23ebb72e139"
-};
-const app =
-    initializeApp(firebaseConfig);
-const db =
-    getFirestore(app);
+const CLAVE_USUARIO =
+    "patronUsuario";
+const CLAVE_ESTADISTICAS =
+    "patronEstadisticas";
 // =====================================================
-// ELEMENTOS
+// OBTENER USUARIO
 // =====================================================
-const userBtn =
-    document.getElementById("userBtn");
-const accountBtn =
-    document.getElementById("accountBtn");
-const registerRewardBtn =
-    document.getElementById(
-        "registerRewardBtn"
-    );
-// =====================================================
-// USUARIO LOCAL
-// =====================================================
-function obtenerIDLocal() {
-    let id =
+function obtenerUsuario() {
+    let usuario =
         localStorage.getItem(
-            "patronUsuarioID"
+            CLAVE_USUARIO
         );
-    if (!id) {
-        id =
-            "usr_" +
-            Date.now() +
-            "_" +
-            Math.random()
-                .toString(36)
-                .substring(2, 9);
+    if (!usuario) {
+        usuario = {
+            id:
+                "USR-" +
+                Date.now() +
+                "-" +
+                Math.floor(
+                    Math.random() * 9999
+                ),
+            nombre:
+                "",
+            registrado:
+                false,
+            fechaRegistro:
+                null
+        };
         localStorage.setItem(
-            "patronUsuarioID",
-            id
+            CLAVE_USUARIO,
+            JSON.stringify(
+                usuario
+            )
         );
     }
-    return id;
+    else {
+        try {
+            usuario =
+                JSON.parse(
+                    usuario
+                );
+        }
+        catch {
+            usuario = {
+                id:
+                    "USR-" +
+                    Date.now(),
+                nombre:
+                    "",
+                registrado:
+                    false,
+                fechaRegistro:
+                    null
+            };
+            localStorage.setItem(
+                CLAVE_USUARIO,
+                JSON.stringify(
+                    usuario
+                )
+            );
+        }
+    }
+    return usuario;
 }
 // =====================================================
-// DATOS LOCALES
+// GUARDAR USUARIO
 // =====================================================
-function obtenerDatosLocales() {
-    const datos =
-        localStorage.getItem(
-            "patronUsuarioDatos"
-        );
-    if (!datos) {
-        return {
-            visitas: 0,
-            copias: 0,
-            ahorro: 0,
-            compras: 0
-        };
-    }
-    try {
-        return JSON.parse(datos);
-    }
-    catch {
-        return {
-            visitas: 0,
-            copias: 0,
-            ahorro: 0,
-            compras: 0
-        };
-    }
-}
-// =====================================================
-// GUARDAR DATOS LOCALES
-// =====================================================
-function guardarDatosLocales(
-    datos
+function guardarUsuario(
+    usuario
 ) {
     localStorage.setItem(
-        "patronUsuarioDatos",
-        JSON.stringify(datos)
+        CLAVE_USUARIO,
+        JSON.stringify(
+            usuario
+        )
+    );
+}
+// =====================================================
+// ESTADÍSTICAS
+// =====================================================
+function obtenerEstadisticas() {
+    let estadisticas =
+        localStorage.getItem(
+            CLAVE_ESTADISTICAS
+        );
+    if (!estadisticas) {
+        estadisticas = {
+            visitas:
+                0,
+            copias:
+                0,
+            ahorro:
+                0,
+            compras:
+                0
+        };
+        localStorage.setItem(
+            CLAVE_ESTADISTICAS,
+            JSON.stringify(
+                estadisticas
+            )
+        );
+    }
+    else {
+        try {
+            estadisticas =
+                JSON.parse(
+                    estadisticas
+                );
+        }
+        catch {
+            estadisticas = {
+                visitas:
+                    0,
+                copias:
+                    0,
+                ahorro:
+                    0,
+                compras:
+                    0
+            };
+        }
+    }
+    return estadisticas;
+}
+// =====================================================
+// GUARDAR ESTADÍSTICAS
+// =====================================================
+function guardarEstadisticas(
+    estadisticas
+) {
+    localStorage.setItem(
+        CLAVE_ESTADISTICAS,
+        JSON.stringify(
+            estadisticas
+        )
     );
 }
 // =====================================================
 // REGISTRAR VISITA
 // =====================================================
-async function registrarVisitaUsuario() {
-    const id =
-        obtenerIDLocal();
-    const datos =
-        obtenerDatosLocales();
-    datos.visitas++;
-    guardarDatosLocales(
-        datos
+function registrarVisitaUsuario() {
+    const estadisticas =
+        obtenerEstadisticas();
+    estadisticas.visitas++;
+    guardarEstadisticas(
+        estadisticas
     );
-    try {
-        await setDoc(
-            doc(
-                db,
-                "usuarios",
-                id
-            ),
-            {
-                visitas:
-                    increment(1),
-                ultimaVisita:
-                    serverTimestamp(),
-                actualizado:
-                    serverTimestamp()
-            },
-            {
-                merge: true
-            }
-        );
-    }
-    catch (error) {
-        console.error(
-            "❌ Error registrando visita:",
-            error
-        );
-    }
+    console.log(
+        "👀 Visitas:",
+        estadisticas.visitas
+    );
 }
 // =====================================================
 // REGISTRAR COPIA
 // =====================================================
-async function registrarCopiaUsuario(
+function registrarCopiaUsuario(
     ahorro = 0
 ) {
-    const id =
-        obtenerIDLocal();
-    const datos =
-        obtenerDatosLocales();
-    datos.copias++;
-    datos.ahorro +=
-        Number(ahorro) || 0;
-    guardarDatosLocales(
-        datos
+    const estadisticas =
+        obtenerEstadisticas();
+    // Copia
+    estadisticas.copias++;
+    // Ahorro
+    const cantidad =
+        Number(
+            ahorro
+        ) || 0;
+    estadisticas.ahorro +=
+        cantidad;
+    guardarEstadisticas(
+        estadisticas
     );
-    try {
-        await setDoc(
-            doc(
-                db,
-                "usuarios",
-                id
-            ),
-            {
-                copias:
-                    increment(1),
-                ahorro:
-                    increment(
-                        Number(ahorro) || 0
-                    ),
-                actualizado:
-                    serverTimestamp()
-            },
-            {
-                merge: true
-            }
-        );
-    }
-    catch (error) {
-        console.error(
-            "❌ Error registrando copia:",
-            error
-        );
-    }
+    console.log(
+        "📋 Copias:",
+        estadisticas.copias
+    );
+    console.log(
+        "💰 Ahorro:",
+        estadisticas.ahorro
+    );
+    // Actualizar pantalla
+    actualizarEstadisticasUsuario();
 }
 // =====================================================
 // REGISTRAR COMPRA
 // =====================================================
-async function registrarCompra(
-    monto
-) {
-    const id =
-        obtenerIDLocal();
-    const datos =
-        obtenerDatosLocales();
-    datos.compras++;
-    guardarDatosLocales(
-        datos
+function registrarCompraUsuario() {
+    const estadisticas =
+        obtenerEstadisticas();
+    estadisticas.compras++;
+    guardarEstadisticas(
+        estadisticas
     );
-    try {
-        await setDoc(
-            doc(
-                db,
-                "usuarios",
-                id
-            ),
-            {
-                compras:
-                    increment(1),
-                totalCompras:
-                    increment(
-                        Number(monto) || 0
-                    ),
-                actualizado:
-                    serverTimestamp()
-            },
-            {
-                merge: true
-            }
+    actualizarEstadisticasUsuario();
+    console.log(
+        "🛒 Compras:",
+        estadisticas.compras
+    );
+}
+// =====================================================
+// REGISTRO DE USUARIO
+// =====================================================
+function registrarUsuario() {
+    const nombreInput =
+        document.getElementById(
+            "nombreUsuario"
         );
+    const nombre =
+        nombreInput
+        ?
+        nombreInput.value.trim()
+        :
+        "";
+    if (!nombre) {
+        mostrarMensajeUsuario(
+            "⚠️ Escribe tu nombre"
+        );
+        return;
     }
-    catch (error) {
-        console.error(
-            "❌ Error registrando compra:",
-            error
+    const usuario =
+        obtenerUsuario();
+    usuario.nombre =
+        nombre;
+    usuario.registrado =
+        true;
+    usuario.fechaRegistro =
+        new Date()
+            .toISOString();
+    guardarUsuario(
+        usuario
+    );
+    mostrarMensajeUsuario(
+        "✅ Registro completado"
+    );
+    actualizarPerfil();
+    cerrarModalUsuario();
+}
+// =====================================================
+// ABRIR PERFIL
+// =====================================================
+function abrirPerfilUsuario() {
+    const usuario =
+        obtenerUsuario();
+    const estadisticas =
+        obtenerEstadisticas();
+    const modal =
+        document.getElementById(
+            "usuarioModal"
+        );
+    if (!modal) {
+        crearModalUsuario();
+        return;
+    }
+    modal.classList.add(
+        "active"
+    );
+    actualizarPerfil();
+}
+// =====================================================
+// CERRAR MODAL
+// =====================================================
+function cerrarModalUsuario() {
+    const modal =
+        document.getElementById(
+            "usuarioModal"
+        );
+    if (modal) {
+        modal.classList.remove(
+            "active"
         );
     }
 }
 // =====================================================
-// ABRIR REGISTRO
+// CREAR MODAL
 // =====================================================
-function abrirRegistro() {
-    let modal =
+function crearModalUsuario() {
+    if (
         document.getElementById(
-            "modalUsuario"
-        );
-    if (modal) {
-        modal.classList.add(
-            "activo"
-        );
+            "usuarioModal"
+        )
+    ) {
+        abrirPerfilUsuario();
         return;
     }
-    modal =
+    const modal =
         document.createElement(
             "div"
         );
     modal.id =
-        "modalUsuario";
+        "usuarioModal";
     modal.className =
         "usuario-modal";
     modal.innerHTML = `
-        <div class="usuario-box">
+        <div class="usuario-overlay"></div>
+        <div class="usuario-card">
             <button
+                type="button"
                 class="usuario-cerrar"
                 id="cerrarUsuario"
             >
                 ✕
             </button>
-            <div class="usuario-logo">
+            <div class="usuario-avatar">
                 👤
             </div>
             <h2>
-                Crea tu cuenta
+                Mi cuenta
             </h2>
-            <p>
-                Participa opcionalmente en
-                nuestro programa de premios.
-            </p>
-            <input
-                id="nombreUsuario"
-                type="text"
-                placeholder="Tu nombre"
-                maxlength="40"
-            >
-            <input
-                id="correoUsuario"
-                type="email"
-                placeholder="Correo electrónico"
-                maxlength="100"
-            >
-            <button
-                id="guardarUsuario"
-                class="btn btn-primary"
-            >
-                🚀 CREAR CUENTA
-            </button>
-            <button
-                id="continuarInvitado"
-                class="usuario-invitado"
-            >
-                Continuar sin registrarme
-            </button>
             <p
-                id="errorUsuario"
-                class="usuario-error"
-            ></p>
+                class="usuario-bienvenida"
+                id="usuarioBienvenida"
+            >
+                Participa opcionalmente
+                en nuestro programa.
+            </p>
+            <div
+                id="usuarioRegistro"
+                class="usuario-registro"
+            >
+                <input
+                    type="text"
+                    id="nombreUsuario"
+                    placeholder="Tu nombre"
+                    maxlength="40"
+                >
+                <button
+                    type="button"
+                    id="guardarUsuarioBtn"
+                >
+                    👤 REGISTRARME
+                </button>
+            </div>
+            <div
+                id="usuarioPerfil"
+                class="usuario-perfil"
+            >
+                <div class="usuario-nombre">
+                    👋
+                    <strong
+                        id="perfilNombre"
+                    >
+                    </strong>
+                </div>
+                <div class="usuario-stats">
+                    <div class="usuario-stat">
+                        <span>
+                            👀
+                        </span>
+                        <strong
+                            id="perfilVisitas"
+                        >
+                            0
+                        </strong>
+                        <small>
+                            Visitas
+                        </small>
+                    </div>
+                    <div class="usuario-stat">
+                        <span>
+                            📋
+                        </span>
+                        <strong
+                            id="perfilCopias"
+                        >
+                            0
+                        </strong>
+                        <small>
+                            Cupones
+                        </small>
+                    </div>
+                    <div class="usuario-stat">
+                        <span>
+                            💰
+                        </span>
+                        <strong
+                            id="perfilAhorro"
+                        >
+                            $0
+                        </strong>
+                        <small>
+                            Ahorrado
+                        </small>
+                    </div>
+                    <div class="usuario-stat">
+                        <span>
+                            🛒
+                        </span>
+                        <strong
+                            id="perfilCompras"
+                        >
+                            0
+                        </strong>
+                        <small>
+                            Compras
+                        </small>
+                    </div>
+                </div>
+                <div class="usuario-premios">
+                    🏆
+                    <strong>
+                        Programa de premios
+                    </strong>
+                    <p>
+                        Próximamente podrás
+                        subir tus comprobantes
+                        de compra y participar
+                        por premios.
+                    </p>
+                </div>
+            </div>
+            <div
+                id="usuarioMensaje"
+                class="usuario-mensaje"
+            >
+            </div>
         </div>
     `;
     document.body.appendChild(
@@ -316,356 +433,203 @@ function abrirRegistro() {
         .getElementById(
             "cerrarUsuario"
         )
-        .onclick = () => {
-            modal.classList.remove(
-                "activo"
-            );
-        };
+        ?.addEventListener(
+            "click",
+            cerrarModalUsuario
+        );
+    modal
+        .querySelector(
+            ".usuario-overlay"
+        )
+        ?.addEventListener(
+            "click",
+            cerrarModalUsuario
+        );
     document
         .getElementById(
-            "continuarInvitado"
+            "guardarUsuarioBtn"
         )
-        .onclick = () => {
-            modal.classList.remove(
-                "activo"
-            );
-        };
-    document
-        .getElementById(
-            "guardarUsuario"
-        )
-        .onclick =
-        guardarUsuario;
-}
-// =====================================================
-// GUARDAR USUARIO
-// =====================================================
-async function guardarUsuario() {
-    const nombre =
-        document
-            .getElementById(
-                "nombreUsuario"
-            )
-            .value
-            .trim();
-    const correo =
-        document
-            .getElementById(
-                "correoUsuario"
-            )
-            .value
-            .trim();
-    const error =
-        document
-            .getElementById(
-                "errorUsuario"
-            );
-    if (!nombre) {
-        error.textContent =
-            "⚠️ Escribe tu nombre.";
-        return;
-    }
-    if (
-        !correo ||
-        !correo.includes("@")
-    ) {
-        error.textContent =
-            "⚠️ Escribe un correo válido.";
-        return;
-    }
-    const id =
-        obtenerIDLocal();
-    const datos =
-        obtenerDatosLocales();
-    try {
-        await setDoc(
-            doc(
-                db,
-                "usuarios",
-                id
-            ),
-            {
-                nombre:
-                    nombre,
-                correo:
-                    correo,
-                visitas:
-                    datos.visitas,
-                copias:
-                    datos.copias,
-                ahorro:
-                    datos.ahorro,
-                compras:
-                    datos.compras,
-                registrado:
-                    true,
-                fechaRegistro:
-                    serverTimestamp(),
-                actualizado:
-                    serverTimestamp()
-            },
-            {
-                merge: true
-            }
+        ?.addEventListener(
+            "click",
+            registrarUsuario
         );
-        localStorage.setItem(
-            "patronUsuarioRegistrado",
-            "true"
-        );
-        localStorage.setItem(
-            "patronUsuarioNombre",
-            nombre
-        );
-        const modal =
-            document.getElementById(
-                "modalUsuario"
-            );
-        if (modal) {
-            modal.classList.remove(
-                "activo"
-            );
-        }
-        mostrarToastUsuario(
-            "🎉 ¡Cuenta creada correctamente!"
-        );
-    }
-    catch (error) {
-        console.error(
-            error
-        );
-        document
-            .getElementById(
-                "errorUsuario"
-            )
-            .textContent =
-            "❌ No se pudo crear la cuenta.";
-    }
-}
-// =====================================================
-// PERFIL
-// =====================================================
-async function abrirPerfil() {
-    const id =
-        obtenerIDLocal();
-    let datos =
-        obtenerDatosLocales();
-    try {
-        const resultado =
-            await getDoc(
-                doc(
-                    db,
-                    "usuarios",
-                    id
-                )
-            );
-        if (
-            resultado.exists()
-        ) {
-            const firebaseDatos =
-                resultado.data();
-            datos = {
-                visitas:
-                    firebaseDatos.visitas || 0,
-                copias:
-                    firebaseDatos.copias || 0,
-                ahorro:
-                    firebaseDatos.ahorro || 0,
-                compras:
-                    firebaseDatos.compras || 0
-            };
-        }
-    }
-    catch (error) {
-        console.warn(
-            "⚠️ No se pudo cargar perfil:",
-            error
-        );
-    }
-    let modal =
-        document.getElementById(
-            "modalPerfil"
-        );
-    if (modal) {
-        modal.classList.add(
-            "activo"
-        );
-        return;
-    }
-    modal =
-        document.createElement(
-            "div"
-        );
-    modal.id =
-        "modalPerfil";
-    modal.className =
-        "usuario-modal";
-    const nombre =
-        localStorage.getItem(
-            "patronUsuarioNombre"
-        ) ||
-        "Usuario";
-    modal.innerHTML = `
-        <div class="usuario-box perfil-box">
-            <button
-                class="usuario-cerrar"
-                id="cerrarPerfil"
-            >
-                ✕
-            </button>
-            <div class="usuario-logo">
-                👤
-            </div>
-            <h2>
-                Hola, ${nombre}
-            </h2>
-            <p>
-                Tus estadísticas
-            </p>
-            <div class="perfil-stats">
-                <div>
-                    👀
-                    <strong>
-                        ${datos.visitas}
-                    </strong>
-                    <span>
-                        Visitas
-                    </span>
-                </div>
-                <div>
-                    📋
-                    <strong>
-                        ${datos.copias}
-                    </strong>
-                    <span>
-                        Cupones copiados
-                    </span>
-                </div>
-                <div>
-                    💰
-                    <strong>
-                        $${Number(
-                            datos.ahorro || 0
-                        ).toLocaleString(
-                            "es-MX"
-                        )}
-                    </strong>
-                    <span>
-                        Ahorro
-                    </span>
-                </div>
-                <div>
-                    🛒
-                    <strong>
-                        ${datos.compras}
-                    </strong>
-                    <span>
-                        Compras
-                    </span>
-                </div>
-            </div>
-            <div class="perfil-premio">
-                🏆
-                <strong>
-                    Programa de premios
-                </strong>
-                <span>
-                    Usa nuestros cupones,
-                    registra tus compras y
-                    participa por premios.
-                </span>
-            </div>
-        </div>
-    `;
-    document.body.appendChild(
-        modal
+    actualizarPerfil();
+    modal.classList.add(
+        "active"
     );
-    document
-        .getElementById(
-            "cerrarPerfil"
-        )
-        .onclick = () => {
-            modal.classList.remove(
-                "activo"
-            );
-        };
 }
 // =====================================================
-// TOAST
+// ACTUALIZAR PERFIL
 // =====================================================
-function mostrarToastUsuario(
+function actualizarPerfil() {
+    const usuario =
+        obtenerUsuario();
+    const estadisticas =
+        obtenerEstadisticas();
+    const registro =
+        document.getElementById(
+            "usuarioRegistro"
+        );
+    const perfil =
+        document.getElementById(
+            "usuarioPerfil"
+        );
+    if (
+        registro &&
+        perfil
+    ) {
+        if (
+            usuario.registrado
+        ) {
+            registro.style.display =
+                "none";
+            perfil.style.display =
+                "block";
+        }
+        else {
+            registro.style.display =
+                "block";
+            perfil.style.display =
+                "none";
+        }
+    }
+    const nombre =
+        document.getElementById(
+            "perfilNombre"
+        );
+    const visitas =
+        document.getElementById(
+            "perfilVisitas"
+        );
+    const copias =
+        document.getElementById(
+            "perfilCopias"
+        );
+    const ahorro =
+        document.getElementById(
+            "perfilAhorro"
+        );
+    const compras =
+        document.getElementById(
+            "perfilCompras"
+        );
+    if (nombre) {
+        nombre.textContent =
+            usuario.nombre ||
+            "Usuario";
+    }
+    if (visitas) {
+        visitas.textContent =
+            estadisticas.visitas;
+    }
+    if (copias) {
+        copias.textContent =
+            estadisticas.copias;
+    }
+    if (ahorro) {
+        ahorro.textContent =
+            "$" +
+            estadisticas.ahorro
+                .toLocaleString(
+                    "es-MX"
+                );
+    }
+    if (compras) {
+        compras.textContent =
+            estadisticas.compras;
+    }
+}
+// =====================================================
+// ACTUALIZAR ESTADÍSTICAS
+// =====================================================
+function actualizarEstadisticasUsuario() {
+    actualizarPerfil();
+}
+// =====================================================
+// MENSAJE
+// =====================================================
+function mostrarMensajeUsuario(
     mensaje
 ) {
-    if (
-        window.mostrarToast
-    ) {
-        window.mostrarToast(
-            mensaje
-        );
-        return;
-    }
-    let toast =
+    const elemento =
         document.getElementById(
-            "toast"
+            "usuarioMensaje"
         );
-    if (!toast) return;
-    toast.textContent =
+    if (!elemento) return;
+    elemento.textContent =
         mensaje;
-    toast.classList.add(
-        "show"
+    setTimeout(
+        () => {
+            elemento.textContent =
+                "";
+        },
+        3000
     );
-    setTimeout(() => {
-        toast.classList.remove(
-            "show"
-        );
-    }, 2500);
 }
 // =====================================================
-// FUNCIONES GLOBALES
-// =====================================================
-window.registrarCopiaUsuario =
-    registrarCopiaUsuario;
-window.registrarCompra =
-    registrarCompra;
-window.abrirPerfilUsuario =
-    abrirPerfil;
-window.abrirRegistroUsuario =
-    abrirRegistro;
-// =====================================================
-// BOTONES
+// BOTONES EXISTENTES DE INDEX
 // =====================================================
 document.addEventListener(
     "DOMContentLoaded",
     () => {
+        // Registrar una visita
         registrarVisitaUsuario();
+        // Botón del header
+        const userBtn =
+            document.getElementById(
+                "userBtn"
+            );
         userBtn?.addEventListener(
             "click",
             () => {
-                const registrado =
-                    localStorage.getItem(
-                        "patronUsuarioRegistrado"
-                    );
-                if (registrado === "true") {
-                    abrirPerfil();
-                }
-                else {
-                    abrirRegistro();
-                }
+                crearModalUsuario();
             }
         );
-        accountBtn?.addEventListener(
-            "click",
-            () => {
-                abrirRegistro();
-            }
-        );
+        // Botón de premios
+        const registerRewardBtn =
+            document.getElementById(
+                "registerRewardBtn"
+            );
         registerRewardBtn?.addEventListener(
             "click",
             () => {
-                abrirRegistro();
+                crearModalUsuario();
             }
         );
-        console.log(
-            "👤 Sistema de usuarios listo"
+        // Botón de cuenta
+        const accountBtn =
+            document.getElementById(
+                "accountBtn"
+            );
+        accountBtn?.addEventListener(
+            "click",
+            () => {
+                crearModalUsuario();
+            }
         );
+        actualizarPerfil();
     }
+);
+// =====================================================
+// FUNCIONES GLOBALES
+// =====================================================
+window.obtenerUsuario =
+    obtenerUsuario;
+window.obtenerEstadisticas =
+    obtenerEstadisticas;
+window.registrarVisitaUsuario =
+    registrarVisitaUsuario;
+window.registrarCopiaUsuario =
+    registrarCopiaUsuario;
+window.registrarCompraUsuario =
+    registrarCompraUsuario;
+window.abrirPerfilUsuario =
+    abrirPerfilUsuario;
+window.crearModalUsuario =
+    crearModalUsuario;
+// =====================================================
+// FIN
+// =====================================================
+console.log(
+    "👤 Sistema de usuario preparado"
 );
