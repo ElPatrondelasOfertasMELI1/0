@@ -7,11 +7,7 @@ console.log("🎟️ CUPONES.JS CARGADO");
 // =====================================================
 // CONFIGURACIÓN
 // =====================================================
-// IMPORTANTE:
 // Aquí colocaremos después tus cupones reales.
-//
-// Por ahora usamos ejemplos para comprobar
-// que todo el sistema funciona correctamente.
 const CUPONES = {
     relampago: [
         {
@@ -20,7 +16,7 @@ const CUPONES = {
             descuento: "$88 OFF",
             minimo: "$700",
             estado: "🟢 DISPONIBLE",
-            link: "#"
+            link: "https://meli.la/1mj3itE"
         },
         {
             nombre: "Cupón Relámpago",
@@ -28,7 +24,7 @@ const CUPONES = {
             descuento: "$175 OFF",
             minimo: "$1,400",
             estado: "🟢 DISPONIBLE",
-            link: "#"
+            link: "https://meli.la/1mj3itE"
         },
         {
             nombre: "Cupón Relámpago",
@@ -36,7 +32,7 @@ const CUPONES = {
             descuento: "$313 OFF",
             minimo: "$2,500",
             estado: "⚡ POR AGOTARSE",
-            link: "#"
+            link: "https://meli.la/1mj3itE"
         }
     ],
     exclusivos: [
@@ -46,7 +42,7 @@ const CUPONES = {
             descuento: "$500 OFF",
             minimo: "$4,000",
             estado: "🟢 DISPONIBLE",
-            link: "#"
+            link: "https://meli.la/1mj3itE"
         }
     ],
     bancarios: [
@@ -57,7 +53,7 @@ const CUPONES = {
             minimo: "$2,500",
             tope: "$1,000",
             estado: "🟢 DISPONIBLE",
-            link: "#"
+            link: "https://meli.la/1mj3itE"
         }
     ]
 };
@@ -118,94 +114,33 @@ function crearTarjetaCupon(cupon) {
         );
     boton.addEventListener(
         "click",
-        async () => {
-            copiarCupon(
-                cupon.codigo,
-                cupon.link
-            );
+        () => {
+            // Usamos ÚNICAMENTE el sistema
+            // de mercado-libre.js
+            if (
+                typeof window.copiarYabrirMercadoLibre
+                === "function"
+            ) {
+                window.copiarYabrirMercadoLibre(
+                    cupon.codigo,
+                    cupon.link
+                );
+            }
+            else {
+                console.error(
+                    "❌ mercado-libre.js no está cargado"
+                );
+                if (
+                    window.mostrarToast
+                ) {
+                    window.mostrarToast(
+                        "❌ Sistema de Mercado Libre no disponible"
+                    );
+                }
+            }
         }
     );
     return tarjeta;
-}
-// =====================================================
-// COPIAR CUPÓN
-// =====================================================
-async function copiarCupon(
-    codigo,
-    link
-) {
-    try {
-        await navigator.clipboard.writeText(
-            codigo
-        );
-        // Guardar estadísticas locales
-        registrarCopia();
-        if (window.mostrarToast) {
-            window.mostrarToast(
-                "✅ Cupón copiado"
-            );
-        }
-        // Esperamos un momento para que
-        // el usuario vea la confirmación.
-        setTimeout(() => {
-            abrirMercadoLibre(
-                link
-            );
-        }, 250);
-    }
-    catch (error) {
-        console.error(
-            "❌ Error copiando cupón:",
-            error
-        );
-        if (window.mostrarToast) {
-            window.mostrarToast(
-                "❌ No se pudo copiar el cupón"
-            );
-        }
-    }
-}
-// =====================================================
-// ABRIR MERCADO LIBRE
-// =====================================================
-function abrirMercadoLibre(link) {
-    if (!link || link === "#") {
-        if (window.mostrarToast) {
-            window.mostrarToast(
-                "⚠️ Enlace de Mercado Libre pendiente"
-            );
-        }
-        return;
-    }
-    /*
-     * Más adelante aquí colocaremos el sistema
-     * definitivo para intentar abrir directamente
-     * la aplicación de Mercado Libre.
-     *
-     * También respetaremos tu enlace de afiliado.
-     */
-    window.location.href =
-        link;
-}
-// =====================================================
-// ESTADÍSTICAS LOCALES
-// =====================================================
-function registrarCopia() {
-    let copias =
-        parseInt(
-            localStorage.getItem(
-                "copiasPatron"
-            )
-        ) || 0;
-    copias++;
-    localStorage.setItem(
-        "copiasPatron",
-        copias
-    );
-    console.log(
-        "📋 Copias:",
-        copias
-    );
 }
 // =====================================================
 // CARGAR RELÁMPAGO
