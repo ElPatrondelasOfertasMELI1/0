@@ -1,741 +1,286 @@
 // =====================================================
-// EL PATRÓN DE LAS OFERTAS
+// ⚡ EL PATRÓN DE LAS OFERTAS
 // CUPONES.JS
-// Relámpago + Exclusivos + Bancarios
+// Sistema independiente de cupones
 // =====================================================
-
-import {
-    db
-} from "../firebase/firebase.js";
-
-import {
-    collection,
-    onSnapshot,
-    doc,
-    updateDoc,
-    increment
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-
+console.log("🎟️ CUPONES.JS CARGADO");
 // =====================================================
 // CONFIGURACIÓN
 // =====================================================
-
-// AQUÍ PONDREMOS TU LINK DE AFILIADO PRINCIPAL
-// cuando terminemos la estructura.
-
-const LINK_MERCADO_LIBRE =
-    "https://meli.la/1mj3itE";
-
-
-// =====================================================
-// ELEMENTOS
-// =====================================================
-
-const relampago =
-    document.getElementById(
-        "cuponesRelampago"
-    );
-
-const bancarios =
-    document.getElementById(
-        "cuponesBancarios"
-    );
-
-const exclusivos =
-    document.getElementById(
-        "cuponesExclusivos"
-    );
-
-
-// =====================================================
-// TOAST
-// =====================================================
-
-function toast(texto) {
-
-    const elemento =
-        document.getElementById(
-            "toast"
-        );
-
-    if (!elemento) return;
-
-    elemento.textContent =
-        texto;
-
-    elemento.classList.add(
-        "mostrar"
-    );
-
-    setTimeout(() => {
-
-        elemento.classList.remove(
-            "mostrar"
-        );
-
-    }, 2500);
-
-}
-
-
-// =====================================================
-// ABRIR MERCADO LIBRE
-// =====================================================
-
-function abrirMercadoLibre(
-    link
-) {
-
-    if (!link) {
-
-        link =
-            LINK_MERCADO_LIBRE;
-
-    }
-
-
-    const esAndroid =
-        /Android/i.test(
-            navigator.userAgent
-        );
-
-
-    // =============================================
-    // ANDROID
-    // =============================================
-
-    if (esAndroid) {
-
-        try {
-
-            const url =
-                new URL(link);
-
-
-            const intent =
-                "intent://" +
-                url.host +
-                url.pathname +
-                url.search +
-                "#Intent;" +
-                "scheme=https;" +
-                "package=com.mercadolibre;" +
-                "S.browser_fallback_url=" +
-                encodeURIComponent(
-                    link
-                ) +
-                ";end";
-
-
-            window.location.href =
-                intent;
-
-            return;
-
+// IMPORTANTE:
+// Aquí colocaremos después tus cupones reales.
+//
+// Por ahora usamos ejemplos para comprobar
+// que todo el sistema funciona correctamente.
+const CUPONES = {
+    relampago: [
+        {
+            nombre: "Cupón Relámpago",
+            codigo: "RELAMPAGO",
+            descuento: "$88 OFF",
+            minimo: "$700",
+            estado: "🟢 DISPONIBLE",
+            link: "#"
+        },
+        {
+            nombre: "Cupón Relámpago",
+            codigo: "RELAMPAGO",
+            descuento: "$175 OFF",
+            minimo: "$1,400",
+            estado: "🟢 DISPONIBLE",
+            link: "#"
+        },
+        {
+            nombre: "Cupón Relámpago",
+            codigo: "RELAMPAGO",
+            descuento: "$313 OFF",
+            minimo: "$2,500",
+            estado: "⚡ POR AGOTARSE",
+            link: "#"
         }
-
-        catch (error) {
-
-            console.log(
-                "Intent Mercado Libre:",
-                error
-            );
-
+    ],
+    exclusivos: [
+        {
+            nombre: "Cupón Exclusivo",
+            codigo: "EXCLUSIVO",
+            descuento: "$500 OFF",
+            minimo: "$4,000",
+            estado: "🟢 DISPONIBLE",
+            link: "#"
         }
-
-    }
-
-
-    // =============================================
-    // IPHONE / PC
-    // =============================================
-
-    window.location.href =
-        link;
-
-}
-
-
-// =====================================================
-// COPIAR CUPÓN
-// =====================================================
-
-async function copiarCupon(
-    id,
-    codigo,
-    link
-) {
-
-    try {
-
-        // =============================================
-        // COPIAR
-        // =============================================
-
-        await navigator.clipboard.writeText(
-            codigo
-        );
-
-
-        // =============================================
-        // SUMAR COPIA
-        // =============================================
-
-        await updateDoc(
-
-            doc(
-                db,
-                "cupones",
-                id
-            ),
-
-            {
-
-                copias:
-                    increment(1)
-
-            }
-
-        ).catch(
-            error => {
-
-                console.log(
-                    "No se pudo actualizar copia:",
-                    error
-                );
-
-            }
-        );
-
-
-        // =============================================
-        // MENSAJE
-        // =============================================
-
-        toast(
-            "✅ CUPÓN COPIADO"
-        );
-
-
-        // =============================================
-        // ABRIR MERCADO LIBRE
-        // =============================================
-
-        abrirMercadoLibre(
-            link ||
-            LINK_MERCADO_LIBRE
-        );
-
-    }
-
-    catch (error) {
-
-        console.error(
-            "Error al copiar:",
-            error
-        );
-
-        toast(
-            "⚠️ No se pudo copiar el cupón"
-        );
-
-    }
-
-}
-
-
-// =====================================================
-// FORMATO DEL DESCUENTO
-// =====================================================
-
-function obtenerDescuento(
-    cupon
-) {
-
-    if (
-        cupon.tipoDescuento ===
-        "porcentaje"
-    ) {
-
-        return `
-            📊
-            <strong>
-                ${cupon.descuento || 0}%
-            </strong>
-            OFF
-        `;
-
-    }
-
-
-    return `
-        💰
-        <strong>
-            $${cupon.descuento || 0}
-        </strong>
-        OFF
-    `;
-
-}
-
-
+    ],
+    bancarios: [
+        {
+            nombre: "Cupón Bancario",
+            codigo: "BANCO",
+            descuento: "10% OFF",
+            minimo: "$2,500",
+            tope: "$1,000",
+            estado: "🟢 DISPONIBLE",
+            link: "#"
+        }
+    ]
+};
 // =====================================================
 // CREAR TARJETA
 // =====================================================
-
-function crearTarjeta(
-    item
-) {
-
-    const c =
-        item.data();
-
-
+function crearTarjetaCupon(cupon) {
     const tarjeta =
-        document.createElement(
-            "article"
-        );
-
-
+        document.createElement("article");
     tarjeta.className =
-        "cuponCard";
-
-
-    // =============================================
-    // ESTADO
-    // =============================================
-
-    let estadoTexto =
-        "🟢 DISPONIBLE";
-
-
-    if (
-        c.estado ===
-        "agotando"
-    ) {
-
-        estadoTexto =
-            "⚡ ÚLTIMAS PIEZAS";
-
-    }
-
-
-    if (
-        c.estado ===
-        "agotado"
-    ) {
-
-        estadoTexto =
-            "🔴 AGOTADO";
-
-    }
-
-
-    // =============================================
-    // TOPE
-    // =============================================
-
-    let topeHTML = "";
-
-
-    if (
-        c.tipoDescuento ===
-        "porcentaje" &&
-        c.tope
-    ) {
-
-        topeHTML = `
-
-            <p class="cuponTope">
-
-                🔝 Tope:
-                $${c.tope}
-
-            </p>
-
-        `;
-
-    }
-
-
-    // =============================================
-    // BOTÓN
-    // =============================================
-
-    const botonDeshabilitado =
-        c.estado === "agotado";
-
-
+        "coupon-card";
     tarjeta.innerHTML = `
-
-        <div class="cuponEstado">
-
-            ${estadoTexto}
-
+        <div class="coupon-status">
+            ${cupon.estado}
         </div>
-
-
-        <h3 class="cuponNombre">
-
+        <div class="coupon-icon">
             🎟️
-            ${c.nombre || "CUPÓN"}
-
-        </h3>
-
-
-        <div class="cuponDescuento">
-
-            ${obtenerDescuento(c)}
-
         </div>
-
-
-        <p class="cuponMinimo">
-
+        <h3>
+            ${cupon.nombre}
+        </h3>
+        <div class="coupon-discount">
+            ${cupon.descuento}
+        </div>
+        <div class="coupon-info">
             🛒 Compra mínima:
             <strong>
-                $${c.minimo || 0}
+                ${cupon.minimo}
             </strong>
-
-        </p>
-
-
-        ${topeHTML}
-
-
-        <div class="cuponCodigo">
-
-            🔐
-            <span>
-                CUPÓN OCULTO
-            </span>
-
         </div>
-
-
+        ${
+            cupon.tope
+            ?
+            `
+            <div class="coupon-info">
+                🔝 Tope:
+                <strong>
+                    ${cupon.tope}
+                </strong>
+            </div>
+            `
+            :
+            ""
+        }
         <button
-            class="btnCopiarCupon"
-            ${botonDeshabilitado ? "disabled" : ""}
+            class="coupon-copy"
+            type="button"
         >
-
-            ${
-                botonDeshabilitado
-                ?
-                "🔴 AGOTADO"
-                :
-                "📋 COPIAR CUPÓN"
-            }
-
+            📋 COPIAR CUPÓN
         </button>
-
     `;
-
-
-    // =============================================
-    // BOTÓN COPIAR
-    // =============================================
-
+    // =================================================
+    // BOTÓN CUPÓN
+    // =================================================
     const boton =
         tarjeta.querySelector(
-            ".btnCopiarCupon"
+            ".coupon-copy"
         );
-
-
-    boton?.addEventListener(
+    boton.addEventListener(
         "click",
-        event => {
-
-            event.preventDefault();
-
-            if (
-                c.estado ===
-                "agotado"
-            ) {
-
-                return;
-
-            }
-
-
+        async () => {
             copiarCupon(
-
-                item.id,
-
-                c.codigo,
-
-                c.link ||
-                LINK_MERCADO_LIBRE
-
+                cupon.codigo,
+                cupon.link
             );
-
         }
     );
-
-
     return tarjeta;
-
 }
-
-
 // =====================================================
-// LIMPIAR SECCIONES
+// COPIAR CUPÓN
 // =====================================================
-
-function limpiar() {
-
-    if (relampago)
-        relampago.innerHTML = "";
-
-    if (bancarios)
-        bancarios.innerHTML = "";
-
-    if (exclusivos)
-        exclusivos.innerHTML = "";
-
-}
-
-
-// =====================================================
-// ORDENAR CUPONES
-// =====================================================
-
-function ordenarCupones(
-    lista,
-    tipo
+async function copiarCupon(
+    codigo,
+    link
 ) {
-
-    return lista
-        .filter(
-            item =>
-                item.data().tipo === tipo
-        )
-        .sort(
-            (a, b) => {
-
-                const descuentoA =
-                    Number(
-                        a.data().descuento || 0
-                    );
-
-                const descuentoB =
-                    Number(
-                        b.data().descuento || 0
-                    );
-
-
-                // Relámpagos:
-                // menor → mayor
-
-                if (
-                    tipo ===
-                    "relampago"
-                ) {
-
-                    return (
-                        descuentoA -
-                        descuentoB
-                    );
-
-                }
-
-
-                // Bancarios:
-                // mayor → menor
-
-                return (
-                    descuentoB -
-                    descuentoA
-                );
-
-            }
+    try {
+        await navigator.clipboard.writeText(
+            codigo
         );
-
-}
-
-
-// =====================================================
-// CARGAR CUPONES
-// =====================================================
-
-export function cargarCupones() {
-
-    if (
-        !relampago &&
-        !bancarios &&
-        !exclusivos
-    ) {
-
-        return;
-
-    }
-
-
-    onSnapshot(
-
-        collection(
-            db,
-            "cupones"
-        ),
-
-        datos => {
-
-            limpiar();
-
-
-            // =========================================
-            // SEPARAR
-            // =========================================
-
-            const todos =
-                datos.docs;
-
-
-            const listaRelampago =
-                ordenarCupones(
-                    todos,
-                    "relampago"
-                );
-
-
-            const listaBancarios =
-                ordenarCupones(
-                    todos,
-                    "bancario"
-                );
-
-
-            const listaExclusivos =
-                todos.filter(
-                    item =>
-                        item.data().tipo ===
-                        "exclusivo"
-                );
-
-
-            // =========================================
-            // RELÁMPAGO
-            // =========================================
-
-            listaRelampago.forEach(
-                item => {
-
-                    relampago?.appendChild(
-                        crearTarjeta(item)
-                    );
-
-                }
+        // Guardar estadísticas locales
+        registrarCopia();
+        if (window.mostrarToast) {
+            window.mostrarToast(
+                "✅ Cupón copiado"
             );
-
-
-            // =========================================
-            // BANCARIOS
-            // =========================================
-
-            listaBancarios.forEach(
-                item => {
-
-                    bancarios?.appendChild(
-                        crearTarjeta(item)
-                    );
-
-                }
-            );
-
-
-            // =========================================
-            // EXCLUSIVOS
-            // =========================================
-
-            listaExclusivos.forEach(
-                item => {
-
-                    exclusivos?.appendChild(
-                        crearTarjeta(item)
-                    );
-
-                }
-            );
-
-
-            // =========================================
-            // MENSAJES VACÍOS
-            // =========================================
-
-            if (
-                relampago &&
-                !relampago.children.length
-            ) {
-
-                relampago.innerHTML =
-                    `
-                    <div class="sinCupones">
-                        ⚡ No hay cupones relámpago
-                    </div>
-                    `;
-
-            }
-
-
-            if (
-                bancarios &&
-                !bancarios.children.length
-            ) {
-
-                bancarios.innerHTML =
-                    `
-                    <div class="sinCupones">
-                        💳 No hay cupones bancarios
-                    </div>
-                    `;
-
-            }
-
-
-            if (
-                exclusivos &&
-                !exclusivos.children.length
-            ) {
-
-                exclusivos.innerHTML =
-                    `
-                    <div class="sinCupones">
-                        ⭐ No hay cupones exclusivos
-                    </div>
-                    `;
-
-            }
-
-        },
-
-        error => {
-
-            console.error(
-                "Error cargando cupones:",
-                error
-            );
-
         }
-
-    );
-
+        // Esperamos un momento para que
+        // el usuario vea la confirmación.
+        setTimeout(() => {
+            abrirMercadoLibre(
+                link
+            );
+        }, 250);
+    }
+    catch (error) {
+        console.error(
+            "❌ Error copiando cupón:",
+            error
+        );
+        if (window.mostrarToast) {
+            window.mostrarToast(
+                "❌ No se pudo copiar el cupón"
+            );
+        }
+    }
 }
-
-
 // =====================================================
-// INICIAR
+// ABRIR MERCADO LIBRE
 // =====================================================
-
+function abrirMercadoLibre(link) {
+    if (!link || link === "#") {
+        if (window.mostrarToast) {
+            window.mostrarToast(
+                "⚠️ Enlace de Mercado Libre pendiente"
+            );
+        }
+        return;
+    }
+    /*
+     * Más adelante aquí colocaremos el sistema
+     * definitivo para intentar abrir directamente
+     * la aplicación de Mercado Libre.
+     *
+     * También respetaremos tu enlace de afiliado.
+     */
+    window.location.href =
+        link;
+}
+// =====================================================
+// ESTADÍSTICAS LOCALES
+// =====================================================
+function registrarCopia() {
+    let copias =
+        parseInt(
+            localStorage.getItem(
+                "copiasPatron"
+            )
+        ) || 0;
+    copias++;
+    localStorage.setItem(
+        "copiasPatron",
+        copias
+    );
+    console.log(
+        "📋 Copias:",
+        copias
+    );
+}
+// =====================================================
+// CARGAR RELÁMPAGO
+// =====================================================
+function cargarRelampagos() {
+    const contenedor =
+        document.getElementById(
+            "relampagoCarousel"
+        );
+    if (!contenedor) return;
+    contenedor.innerHTML = "";
+    CUPONES.relampago.forEach(
+        cupon => {
+            contenedor.appendChild(
+                crearTarjetaCupon(
+                    cupon
+                )
+            );
+        }
+    );
+}
+// =====================================================
+// CARGAR EXCLUSIVOS
+// =====================================================
+function cargarExclusivos() {
+    const contenedor =
+        document.getElementById(
+            "exclusivosGrid"
+        );
+    if (!contenedor) return;
+    contenedor.innerHTML = "";
+    CUPONES.exclusivos.forEach(
+        cupon => {
+            contenedor.appendChild(
+                crearTarjetaCupon(
+                    cupon
+                )
+            );
+        }
+    );
+}
+// =====================================================
+// CARGAR BANCARIOS
+// =====================================================
+function cargarBancarios() {
+    const contenedor =
+        document.getElementById(
+            "bancariosGrid"
+        );
+    if (!contenedor) return;
+    contenedor.innerHTML = "";
+    CUPONES.bancarios.forEach(
+        cupon => {
+            contenedor.appendChild(
+                crearTarjetaCupon(
+                    cupon
+                )
+            );
+        }
+    );
+}
+// =====================================================
+// INICIO
+// =====================================================
 document.addEventListener(
     "DOMContentLoaded",
     () => {
-
-        cargarCupones();
-
+        cargarRelampagos();
+        cargarExclusivos();
+        cargarBancarios();
+        console.log(
+            "⚡ Cupones cargados correctamente"
+        );
     }
 );
-
-
 // =====================================================
 // FIN CUPONES.JS
 // =====================================================
