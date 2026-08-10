@@ -1,0 +1,836 @@
+/* =======================================================
+   EL PATRÓN DE LAS OFERTAS
+   style.css
+======================================================= */
+
+:root{
+  --yellow:#FFE600;
+  --black:#111111;
+  --white:#FFFFFF;
+
+  --green:#00A650;
+  --orange:#FF8A00;
+  --red:#E53935;
+
+  --gray:#F5F6F8;
+  --gray2:#EAECEF;
+  --text:#333333;
+
+  --shadow-sm:0 2px 8px rgba(0,0,0,.06);
+  --shadow-md:0 8px 20px rgba(0,0,0,.08);
+  --shadow-lg:0 15px 35px rgba(0,0,0,.12);
+
+  --radius-sm:10px;
+  --radius-md:16px;
+  --radius-lg:24px;
+
+  --container:1280px;
+
+  --transition:.25s ease;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--gray);
+  color:var(--text);
+  overflow-x:hidden;
+}
+
+img{
+  max-width:100%;
+  display:block;
+}
+
+a{
+  text-decoration:none;
+  color:inherit;
+}
+
+button{
+  border:none;
+  cursor:pointer;
+  font-family:inherit;
+}
+
+.container{
+  width:min(95%,var(--container));
+  margin:auto;
+}
+
+/* =======================================================
+   HEADER
+======================================================= */
+
+.header{
+  position:sticky;
+  top:0;
+  z-index:999;
+  background:var(--white);
+  box-shadow:var(--shadow-sm);
+}
+
+.header-container{
+  min-height:76px;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.logo{
+  display:flex;
+  gap:12px;
+  align-items:center;
+}
+
+.logo-icon{
+  width:48px;
+  height:48px;
+
+  border-radius:14px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  background:var(--yellow);
+
+  font-size:24px;
+}
+
+.logo-text h1{
+  font-size:18px;
+  font-weight:800;
+  color:var(--black);
+}
+
+.logo-text span{
+  font-size:12px;
+  color:#777;
+}
+
+.nav{
+  display:flex;
+  align-items:center;
+  gap:24px;
+}
+
+.nav a{
+  font-weight:600;
+  transition:var(--transition);
+}
+
+.nav a:hover{
+  color:#666;
+}
+
+.btn-account{
+  background:var(--yellow);
+  padding:12px 18px;
+  border-radius:12px;
+  font-weight:700;
+}
+
+.mobile-menu-btn{
+  display:none;
+  width:44px;
+  height:44px;
+  border-radius:12px;
+  background:var(--yellow);
+  font-size:20px;
+}
+
+.mobile-menu{
+  display:none;
+}
+
+/* =======================================================
+   HERO
+======================================================= */
+
+.hero{
+  padding:40px 0;
+}
+
+.hero-content{
+  background:linear-gradient(
+      135deg,
+      #ffe600,
+      #ffd000
+  );
+
+  border-radius:28px;
+  padding:50px;
+
+  box-shadow:var(--shadow-md);
+}
+
+.hero-content h2{
+  font-size:42px;
+  line-height:1.1;
+  color:var(--black);
+  margin-bottom:15px;
+}
+
+.hero-content p{
+  max-width:700px;
+  font-size:18px;
+}
+
+/* =======================================================
+   SECTIONS
+======================================================= */
+
+.section{
+  padding:55px 0;
+}
+
+.gray-section{
+  background:#fafafa;
+}
+
+.section-header{
+  margin-bottom:25px;
+}
+
+.section-header h2{
+  font-size:32px;
+  font-weight:800;
+  color:var(--black);
+}
+
+/* =======================================================
+   BANNER MERCADO PAGO
+======================================================= */
+
+.banner-section{
+  padding:10px 0 30px;
+}
+
+.mercado-pago-banner{
+  background:linear-gradient(
+      135deg,
+      #00a650,
+      #008a44
+  );
+
+  border-radius:24px;
+  overflow:hidden;
+
+  color:white;
+
+  box-shadow:var(--shadow-lg);
+}
+
+.banner-content{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+
+  padding:35px;
+}
+
+.banner-tag{
+  display:inline-block;
+
+  padding:6px 12px;
+
+  border-radius:999px;
+
+  background:rgba(255,255,255,.15);
+
+  margin-bottom:12px;
+
+  font-size:12px;
+  font-weight:700;
+}
+
+.banner-content h2{
+  font-size:30px;
+  margin-bottom:10px;
+}
+
+.banner-content p{
+  max-width:700px;
+}
+
+.banner-btn{
+  background:white;
+  color:var(--green);
+
+  padding:16px 24px;
+
+  border-radius:14px;
+
+  font-weight:800;
+
+  transition:var(--transition);
+}
+
+.banner-btn:hover{
+  transform:translateY(-2px);
+}
+
+/* =======================================================
+   CAROUSEL BASE
+======================================================= */
+
+.carousel-wrapper{
+  position:relative;
+}
+
+.carousel-track{
+  display:flex;
+  gap:18px;
+
+  overflow-x:auto;
+  scroll-behavior:smooth;
+
+  scrollbar-width:none;
+}
+
+.carousel-track::-webkit-scrollbar{
+  display:none;
+}
+
+.carousel-btn{
+  position:absolute;
+  top:50%;
+
+  transform:translateY(-50%);
+
+  width:48px;
+  height:48px;
+
+  border-radius:50%;
+
+  background:white;
+
+  box-shadow:var(--shadow-md);
+
+  z-index:5;
+
+  font-size:26px;
+  font-weight:700;
+}
+
+.carousel-btn.prev{
+  left:-20px;
+}
+
+.carousel-btn.next{
+  right:-20px;
+}
+
+.carousel-dots{
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  margin-top:18px;
+}
+
+.carousel-dots span{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:#ccc;
+}
+
+.carousel-dots span.active{
+  background:var(--yellow);
+}
+/* =======================================================
+   CUPONES
+======================================================= */
+
+.coupon-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:20px;
+}
+
+.coupon-card{
+  background:var(--white);
+
+  border-radius:20px;
+
+  padding:22px;
+
+  box-shadow:var(--shadow-md);
+
+  transition:var(--transition);
+
+  position:relative;
+
+  overflow:hidden;
+}
+
+.coupon-card:hover{
+  transform:translateY(-4px);
+}
+
+.coupon-status{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+
+  padding:8px 12px;
+
+  border-radius:999px;
+
+  font-size:12px;
+  font-weight:800;
+
+  margin-bottom:14px;
+}
+
+.status-active{
+  background:rgba(0,166,80,.12);
+  color:var(--green);
+}
+
+.status-warning{
+  background:rgba(255,138,0,.12);
+  color:var(--orange);
+}
+
+.status-danger{
+  background:rgba(229,57,53,.12);
+  color:var(--red);
+}
+
+.status-soon{
+  background:rgba(17,17,17,.08);
+  color:var(--black);
+}
+
+.coupon-icon{
+  font-size:40px;
+  margin-bottom:10px;
+}
+
+.coupon-discount{
+  font-size:34px;
+  font-weight:900;
+  color:var(--black);
+}
+
+.coupon-min{
+  margin-top:10px;
+  color:#666;
+}
+
+.coupon-code-box{
+  margin-top:18px;
+
+  background:var(--gray);
+
+  border-radius:14px;
+
+  padding:14px;
+}
+
+.coupon-code-label{
+  font-size:12px;
+  color:#777;
+  margin-bottom:4px;
+}
+
+.coupon-code{
+  font-size:22px;
+  font-weight:800;
+  letter-spacing:1px;
+}
+
+.coupon-details{
+  margin-top:18px;
+
+  display:grid;
+  gap:8px;
+}
+
+.coupon-details div{
+  display:flex;
+  justify-content:space-between;
+}
+
+.copy-btn{
+  width:100%;
+
+  margin-top:20px;
+
+  padding:15px;
+
+  border-radius:14px;
+
+  background:var(--yellow);
+
+  color:var(--black);
+
+  font-weight:800;
+
+  transition:var(--transition);
+}
+
+.copy-btn:hover{
+  transform:translateY(-2px);
+}
+
+.copy-btn:active{
+  transform:scale(.98);
+}
+
+/* =======================================================
+   OFERTAS
+======================================================= */
+
+.offer-card{
+  min-width:300px;
+
+  background:white;
+
+  border-radius:20px;
+
+  overflow:hidden;
+
+  box-shadow:var(--shadow-md);
+
+  transition:var(--transition);
+}
+
+.offer-card:hover{
+  transform:translateY(-4px);
+}
+
+.offer-image{
+  width:100%;
+  aspect-ratio:1/1;
+  object-fit:cover;
+}
+
+.offer-content{
+  padding:18px;
+}
+
+.offer-title{
+  font-size:15px;
+  font-weight:700;
+
+  line-height:1.4;
+
+  min-height:42px;
+
+  margin-bottom:15px;
+}
+
+.offer-prices{
+  display:flex;
+  align-items:center;
+  gap:10px;
+
+  margin-bottom:10px;
+}
+
+.old-price{
+  text-decoration:line-through;
+  color:#999;
+}
+
+.new-price{
+  font-size:26px;
+  font-weight:900;
+  color:var(--black);
+}
+
+.offer-discount{
+  display:inline-flex;
+
+  background:rgba(0,166,80,.12);
+
+  color:var(--green);
+
+  padding:6px 10px;
+
+  border-radius:999px;
+
+  font-weight:800;
+
+  margin-bottom:15px;
+}
+
+.buy-btn{
+  width:100%;
+
+  padding:14px;
+
+  border-radius:12px;
+
+  background:var(--green);
+
+  color:white;
+
+  font-weight:800;
+}
+
+/* =======================================================
+   PREMIOS
+======================================================= */
+
+.rewards-grid{
+  display:grid;
+
+  grid-template-columns:
+  repeat(auto-fit,minmax(220px,1fr));
+
+  gap:20px;
+}
+
+.reward-card{
+  background:white;
+
+  border-radius:20px;
+
+  padding:24px;
+
+  text-align:center;
+
+  box-shadow:var(--shadow-md);
+}
+
+.reward-card span{
+  font-size:36px;
+}
+
+.reward-card h3{
+  margin-top:12px;
+
+  font-size:34px;
+
+  font-weight:900;
+}
+
+.reward-card p{
+  color:#666;
+  margin-top:5px;
+}
+
+/* =======================================================
+   FOOTER
+======================================================= */
+
+.footer{
+  background:var(--black);
+  color:white;
+
+  margin-top:50px;
+}
+
+.footer-content{
+  display:flex;
+  justify-content:space-between;
+  gap:30px;
+
+  padding:45px 0;
+}
+
+.footer-content h3{
+  margin-bottom:10px;
+}
+
+.footer-content p{
+  color:#ccc;
+}
+
+.footer-content a{
+  color:white;
+  font-weight:700;
+}
+
+.footer-bottom{
+  border-top:1px solid rgba(255,255,255,.1);
+
+  text-align:center;
+
+  padding:18px 0;
+
+  color:#bbb;
+}
+
+/* =======================================================
+   TOAST
+======================================================= */
+
+.toast{
+  position:fixed;
+
+  left:50%;
+  bottom:25px;
+
+  transform:translateX(-50%);
+
+  background:var(--green);
+
+  color:white;
+
+  padding:14px 24px;
+
+  border-radius:12px;
+
+  font-weight:800;
+
+  box-shadow:var(--shadow-lg);
+
+  opacity:0;
+  pointer-events:none;
+
+  transition:.3s;
+
+  z-index:9999;
+}
+
+.toast.show{
+  opacity:1;
+}
+
+/* =======================================================
+   RESPONSIVE TABLET
+======================================================= */
+
+@media (max-width:1024px){
+
+  .hero-content h2{
+    font-size:34px;
+  }
+
+  .banner-content{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .carousel-btn{
+    display:none;
+  }
+
+}
+
+/* =======================================================
+   RESPONSIVE MOVIL
+======================================================= */
+
+@media (max-width:768px){
+
+  .nav{
+    display:none;
+  }
+
+  .mobile-menu-btn{
+    display:block;
+  }
+
+  .mobile-menu{
+    display:none;
+
+    flex-direction:column;
+
+    gap:14px;
+
+    background:white;
+
+    padding:20px;
+
+    border-top:1px solid #eee;
+  }
+
+  .mobile-menu.active{
+    display:flex;
+  }
+
+  .logo-text h1{
+    font-size:15px;
+  }
+
+  .hero{
+    padding:20px 0;
+  }
+
+  .hero-content{
+    padding:25px;
+  }
+
+  .hero-content h2{
+    font-size:28px;
+  }
+
+  .section{
+    padding:40px 0;
+  }
+
+  .section-header h2{
+    font-size:24px;
+  }
+
+  .banner-content{
+    padding:22px;
+  }
+
+  .banner-content h2{
+    font-size:22px;
+  }
+
+  .coupon-grid{
+    grid-template-columns:1fr;
+  }
+
+  .coupon-discount{
+    font-size:28px;
+  }
+
+  .offer-card{
+    min-width:260px;
+  }
+
+  .footer-content{
+    flex-direction:column;
+  }
+
+}
+
+/* =======================================================
+   RESPONSIVE PEQUEÑO
+======================================================= */
+
+@media (max-width:480px){
+
+  .container{
+    width:94%;
+  }
+
+  .logo-icon{
+    width:40px;
+    height:40px;
+  }
+
+  .hero-content h2{
+    font-size:24px;
+  }
+
+  .coupon-card{
+    padding:18px;
+  }
+
+  .reward-card h3{
+    font-size:28px;
+  }
+
+}
