@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+    <meta
+        name="theme-color"
+        content="#ffe600"
+    >
+    <title>
+        ⚡ Admin | El Patrón de las Ofertas
+    </title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet"
+    >
+    <link
+        rel="stylesheet"
+        href="admin.css"
+    >
+</head>
+<body>
+<!-- =====================================================
+     LOGIN
+===================================================== -->
+<div
+    id="loginScreen"
+    class="login-screen"
+>
+    <div class="login-card">
+        <div class="admin-logo">
+            ⚡
+        </div>
+        <span class="admin-label">
+            PANEL DE ADMINISTRACIÓN
+        </span>
+        <h1>
+            El Patrón
+        </h1>
+        <p>
+            Acceso exclusivo para administradores
+        </p>
+        <form id="loginForm">
+            <div class="input-group">
+                <label>
+                    Correo
+                </label>
+                <input
+                    type="email"
+                    id="adminEmail"
+                    placeholder="admin@correo.com"
+                    autocomplete="username"
+                    required
+                >
+            </div>
+            <div class="input-group">
+                <label>
+                    Contraseña
+                </label>
+                <input
+                    type="password"
+                    id="adminPassword"
+                    placeholder="••••••••"
+                    autocomplete="current-password"
+                    required
+                >
+            </div>
+            <button
+                type="submit"
+                class="admin-button primary"
+            >
+                🔐 ENTRAR AL PANEL
+            </button>
+        </form>
+        <div
+            id="loginMessage"
+            class="login-message"
+        ></div>
+    </div>
+</div>
+<!-- =====================================================
+     PANEL
+===================================================== -->
+<div
+    id="adminPanel"
+    class="admin-panel hidden"
+>
+<!-- =====================================================
+     HEADER
+===================================================== -->
+<header class="admin-header">
+    <div>
+        <div class="admin-brand">
+            ⚡ EL PATRÓN
+        </div>
+        <span>
+            PANEL ADMIN
+        </span>
+    </div>
+    <div class="header-actions">
+        <a
+            href="../index.html"
+            target="_blank"
+            class="view-site"
+        >
+            🌐 VER PÁGINA
+        </a>
+        <button
+            id="logoutBtn"
+            class="logout-button"
+        >
+            🚪 SALIR
+        </button>
+    </div>
+</header>
+<!-- =====================================================
+     CONTENIDO
+===================================================== -->
+<main class="admin-main">
+<!-- =====================================================
+     ESTADÍSTICAS
+===================================================== -->
+<section class="dashboard-section">
+    <div class="section-title">
+        <span>
+            📊
+        </span>
+        <div>
+            <h2>
+                Resumen
+            </h2>
+            <p>
+                Estadísticas de tu página
+            </p>
+        </div>
+    </div>
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon">
+                👥
+            </div>
+            <div>
+                <span>
+                    Usuarios
+                </span>
+                <strong
+                    id="totalUsuarios"
+                >
+                    0
+                </strong>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">
+                👀
+            </div>
+            <div>
+                <span>
+                    Visitas
+                </span>
+                <strong
+                    id="totalVisitas"
+                >
+                    0
+                </strong>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">
+                📋
+            </div>
+            <div>
+                <span>
+                    Cupones copiados
+                </span>
+                <strong
+                    id="totalCopias"
+                >
+                    0
+                </strong>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">
+                💰
+            </div>
+            <div>
+                <span>
+                    Ahorro
+                </span>
+                <strong
+                    id="totalAhorro"
+                >
+                    $0
+                </strong>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- =====================================================
+     CUPONES
+===================================================== -->
+<section class="dashboard-section">
+    <div class="section-title">
+        <span>
+            🎟️
+        </span>
+        <div>
+            <h2>
+                Gestión de cupones
+            </h2>
+            <p>
+                Administra los cupones de la página
+            </p>
+        </div>
+    </div>
+    <div class="admin-card">
+        <div class="coupon-toolbar">
+            <button
+                id="nuevoCuponBtn"
+                class="admin-button primary"
+            >
+                ➕ NUEVO CUPÓN
+            </button>
+            <select
+                id="filtroCupon"
+            >
+                <option value="todos">
+                    Todos
+                </option>
+                <option value="relampago">
+                    ⚡ Relámpago
+                </option>
+                <option value="exclusivos">
+                    ⭐ Exclusivos
+                </option>
+                <option value="bancarios">
+                    💳 Bancarios
+                </option>
+            </select>
+        </div>
+        <div
+            id="listaCupones"
+            class="lista-cupones"
+        >
+            <div class="empty-admin">
+                🎟️
+                <strong>
+                    No hay cupones cargados
+                </strong>
+                <span>
+                    Crea tu primer cupón.
+                </span>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- =====================================================
+     USUARIOS
+===================================================== -->
+<section class="dashboard-section">
+    <div class="section-title">
+        <span>
+            👥
+        </span>
+        <div>
+            <h2>
+                Usuarios
+            </h2>
+            <p>
+                Participantes del programa
+            </p>
+        </div>
+    </div>
+    <div class="admin-card">
+        <div
+            id="listaUsuarios"
+            class="lista-usuarios"
+        >
+            <div class="empty-admin">
+                👤
+                <strong>
+                    Sin usuarios registrados
+                </strong>
+                <span>
+                    Los participantes aparecerán aquí.
+                </span>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- =====================================================
+     PREMIOS
+===================================================== -->
+<section class="dashboard-section">
+    <div class="section-title">
+        <span>
+            🏆
+        </span>
+        <div>
+            <h2>
+                Premios
+            </h2>
+            <p>
+                Control de participantes
+            </p>
+        </div>
+    </div>
+    <div class="admin-card premio-admin">
+        <div class="premio-icon">
+            🏆
+        </div>
+        <div>
+            <h3>
+                Programa de compradores
+            </h3>
+            <p>
+                Aquí podremos administrar posteriormente
+                las compras verificadas y seleccionar
+                al comprador con mayor ahorro o compra.
+            </p>
+        </div>
+    </div>
+</section>
+</main>
+<!-- =====================================================
+     MODAL CUPÓN
+===================================================== -->
+<div
+    id="cuponModal"
+    class="modal hidden"
+>
+    <div class="modal-overlay"></div>
+    <div class="modal-card">
+        <button
+            id="cerrarCuponModal"
+            class="modal-close"
+        >
+            ✕
+        </button>
+        <h2>
+            🎟️ Nuevo cupón
+        </h2>
+        <form id="cuponForm">
+            <div class="input-group">
+                <label>
+                    Tipo
+                </label>
+                <select
+                    id="cuponTipo"
+                    required
+                >
+                    <option value="relampago">
+                        ⚡ Relámpago
+                    </option>
+                    <option value="exclusivos">
+                        ⭐ Exclusivo
+                    </option>
+                    <option value="bancarios">
+                        💳 Bancario
+                    </option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label>
+                    Nombre
+                </label>
+                <input
+                    id="cuponNombre"
+                    type="text"
+                    placeholder="Cupón Relámpago"
+                    required
+                >
+            </div>
+            <div class="input-group">
+                <label>
+                    Código
+                </label>
+                <input
+                    id="cuponCodigo"
+                    type="text"
+                    placeholder="CUPON2026"
+                    required
+                >
+            </div>
+            <div class="form-row">
+                <div class="input-group">
+                    <label>
+                        Descuento
+                    </label>
+                    <input
+                        id="cuponDescuento"
+                        type="text"
+                        placeholder="$500 OFF"
+                        required
+                    >
+                </div>
+                <div class="input-group">
+                    <label>
+                        Compra mínima
+                    </label>
+                    <input
+                        id="cuponMinimo"
+                        type="text"
+                        placeholder="$4,000"
+                        required
+                    >
+                </div>
+            </div>
+            <div class="input-group">
+                <label>
+                    Tope
+                </label>
+                <input
+                    id="cuponTope"
+                    type="text"
+                    placeholder="$1,000"
+                >
+            </div>
+            <div class="input-group">
+                <label>
+                    Estado
+                </label>
+                <select
+                    id="cuponEstado"
+                >
+                    <option value="🟢 DISPONIBLE">
+                        🟢 DISPONIBLE
+                    </option>
+                    <option value="⚡ POR AGOTARSE">
+                        ⚡ POR AGOTARSE
+                    </option>
+                    <option value="🔴 AGOTADO">
+                        🔴 AGOTADO
+                    </option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label>
+                    Enlace Mercado Libre
+                </label>
+                <input
+                    id="cuponLink"
+                    type="url"
+                    placeholder="https://meli.la/..."
+                    required
+                >
+            </div>
+            <div class="modal-actions">
+                <button
+                    type="button"
+                    id="cancelarCupon"
+                    class="admin-button secondary"
+                >
+                    CANCELAR
+                </button>
+                <button
+                    type="submit"
+                    class="admin-button primary"
+                >
+                    💾 GUARDAR CUPÓN
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="admin.js"></script>
+</body>
+</html>
