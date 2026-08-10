@@ -2,75 +2,50 @@
 // ⚡ EL PATRÓN DE LAS OFERTAS
 // USUARIO.JS
 // Sistema de usuario opcional
-// Estadísticas locales
+// SIN FIRESTORE
 // =====================================================
 console.log("👤 USUARIO.JS CARGADO");
 // =====================================================
-// CONFIGURACIÓN
+// CLAVES LOCALSTORAGE
 // =====================================================
-const CLAVE_USUARIO =
-    "patronUsuario";
-const CLAVE_ESTADISTICAS =
-    "patronEstadisticas";
+const USUARIO_KEY = "patron_usuario";
+const ESTADISTICAS_KEY = "patron_estadisticas";
 // =====================================================
 // OBTENER USUARIO
 // =====================================================
 function obtenerUsuario() {
-    let usuario =
-        localStorage.getItem(
-            CLAVE_USUARIO
-        );
-    if (!usuario) {
-        usuario = {
-            id:
-                "USR-" +
-                Date.now() +
-                "-" +
-                Math.floor(
-                    Math.random() * 9999
-                ),
-            nombre:
-                "",
-            registrado:
-                false,
-            fechaRegistro:
-                null
-        };
-        localStorage.setItem(
-            CLAVE_USUARIO,
-            JSON.stringify(
-                usuario
-            )
-        );
-    }
-    else {
-        try {
-            usuario =
-                JSON.parse(
-                    usuario
-                );
-        }
-        catch {
-            usuario = {
-                id:
-                    "USR-" +
-                    Date.now(),
-                nombre:
-                    "",
-                registrado:
-                    false,
-                fechaRegistro:
-                    null
-            };
-            localStorage.setItem(
-                CLAVE_USUARIO,
-                JSON.stringify(
-                    usuario
-                )
+    try {
+        const guardado =
+            localStorage.getItem(
+                USUARIO_KEY
+            );
+        if (guardado) {
+            return JSON.parse(
+                guardado
             );
         }
     }
-    return usuario;
+    catch (error) {
+        console.error(
+            "Error leyendo usuario:",
+            error
+        );
+    }
+    return {
+        id:
+            "USR-" +
+            Date.now() +
+            "-" +
+            Math.floor(
+                Math.random() * 99999
+            ),
+        nombre:
+            "",
+        registrado:
+            false,
+        fechaRegistro:
+            null
+    };
 }
 // =====================================================
 // GUARDAR USUARIO
@@ -79,70 +54,56 @@ function guardarUsuario(
     usuario
 ) {
     localStorage.setItem(
-        CLAVE_USUARIO,
+        USUARIO_KEY,
         JSON.stringify(
             usuario
         )
     );
 }
 // =====================================================
-// ESTADÍSTICAS
+// OBTENER ESTADÍSTICAS
 // =====================================================
 function obtenerEstadisticas() {
-    let estadisticas =
-        localStorage.getItem(
-            CLAVE_ESTADISTICAS
-        );
-    if (!estadisticas) {
-        estadisticas = {
-            visitas:
-                0,
-            copias:
-                0,
-            ahorro:
-                0,
-            compras:
-                0
-        };
-        localStorage.setItem(
-            CLAVE_ESTADISTICAS,
-            JSON.stringify(
-                estadisticas
-            )
-        );
-    }
-    else {
-        try {
-            estadisticas =
-                JSON.parse(
-                    estadisticas
-                );
-        }
-        catch {
-            estadisticas = {
-                visitas:
-                    0,
-                copias:
-                    0,
-                ahorro:
-                    0,
-                compras:
-                    0
+    try {
+        const guardado =
+            localStorage.getItem(
+                ESTADISTICAS_KEY
+            );
+        if (guardado) {
+            return {
+                visitas: 0,
+                copias: 0,
+                ahorro: 0,
+                compras: 0,
+                ...JSON.parse(
+                    guardado
+                )
             };
         }
     }
-    return estadisticas;
+    catch (error) {
+        console.error(
+            "Error leyendo estadísticas:",
+            error
+        );
+    }
+    return {
+        visitas: 0,
+        copias: 0,
+        ahorro: 0,
+        compras: 0
+    };
 }
 // =====================================================
 // GUARDAR ESTADÍSTICAS
 // =====================================================
 function guardarEstadisticas(
-    estadisticas
+    datos
 ) {
     localStorage.setItem(
-        CLAVE_ESTADISTICAS,
+        ESTADISTICAS_KEY,
         JSON.stringify(
-            estadisticas
+            datos
         )
     );
 }
@@ -150,164 +111,104 @@ function guardarEstadisticas(
 // REGISTRAR VISITA
 // =====================================================
 function registrarVisitaUsuario() {
-    const estadisticas =
+    const datos =
         obtenerEstadisticas();
-    estadisticas.visitas++;
+    datos.visitas =
+        Number(
+            datos.visitas
+        ) + 1;
     guardarEstadisticas(
-        estadisticas
+        datos
     );
     console.log(
         "👀 Visitas:",
-        estadisticas.visitas
+        datos.visitas
     );
 }
 // =====================================================
-// REGISTRAR COPIA
+// REGISTRAR COPIA + AHORRO
 // =====================================================
 function registrarCopiaUsuario(
     ahorro = 0
 ) {
-    const estadisticas =
+    const datos =
         obtenerEstadisticas();
-    // Copia
-    estadisticas.copias++;
-    // Ahorro
+    datos.copias =
+        Number(
+            datos.copias
+        ) + 1;
     const cantidad =
         Number(
             ahorro
         ) || 0;
-    estadisticas.ahorro +=
-        cantidad;
+    datos.ahorro =
+        Number(
+            datos.ahorro
+        ) + cantidad;
     guardarEstadisticas(
-        estadisticas
+        datos
     );
     console.log(
         "📋 Copias:",
-        estadisticas.copias
+        datos.copias
     );
     console.log(
         "💰 Ahorro:",
-        estadisticas.ahorro
+        datos.ahorro
     );
-    // Actualizar pantalla
-    actualizarEstadisticasUsuario();
+    actualizarPerfil();
 }
 // =====================================================
 // REGISTRAR COMPRA
 // =====================================================
 function registrarCompraUsuario() {
-    const estadisticas =
+    const datos =
         obtenerEstadisticas();
-    estadisticas.compras++;
+    datos.compras =
+        Number(
+            datos.compras
+        ) + 1;
     guardarEstadisticas(
-        estadisticas
-    );
-    actualizarEstadisticasUsuario();
-    console.log(
-        "🛒 Compras:",
-        estadisticas.compras
-    );
-}
-// =====================================================
-// REGISTRO DE USUARIO
-// =====================================================
-function registrarUsuario() {
-    const nombreInput =
-        document.getElementById(
-            "nombreUsuario"
-        );
-    const nombre =
-        nombreInput
-        ?
-        nombreInput.value.trim()
-        :
-        "";
-    if (!nombre) {
-        mostrarMensajeUsuario(
-            "⚠️ Escribe tu nombre"
-        );
-        return;
-    }
-    const usuario =
-        obtenerUsuario();
-    usuario.nombre =
-        nombre;
-    usuario.registrado =
-        true;
-    usuario.fechaRegistro =
-        new Date()
-            .toISOString();
-    guardarUsuario(
-        usuario
-    );
-    mostrarMensajeUsuario(
-        "✅ Registro completado"
+        datos
     );
     actualizarPerfil();
-    cerrarModalUsuario();
-}
-// =====================================================
-// ABRIR PERFIL
-// =====================================================
-function abrirPerfilUsuario() {
-    const usuario =
-        obtenerUsuario();
-    const estadisticas =
-        obtenerEstadisticas();
-    const modal =
-        document.getElementById(
-            "usuarioModal"
-        );
-    if (!modal) {
-        crearModalUsuario();
-        return;
-    }
-    modal.classList.add(
-        "active"
-    );
-    actualizarPerfil();
-}
-// =====================================================
-// CERRAR MODAL
-// =====================================================
-function cerrarModalUsuario() {
-    const modal =
-        document.getElementById(
-            "usuarioModal"
-        );
-    if (modal) {
-        modal.classList.remove(
-            "active"
-        );
-    }
 }
 // =====================================================
 // CREAR MODAL
 // =====================================================
 function crearModalUsuario() {
-    if (
+    // Si ya existe simplemente abrirlo
+    const existente =
         document.getElementById(
             "usuarioModal"
-        )
-    ) {
-        abrirPerfilUsuario();
+        );
+    if (existente) {
+        existente.classList.add(
+            "active"
+        );
+        actualizarPerfil();
         return;
     }
+    // =================================================
+    // MODAL
+    // =================================================
     const modal =
         document.createElement(
             "div"
         );
     modal.id =
         "usuarioModal";
-    modal.className =
-        "usuario-modal";
     modal.innerHTML = `
-        <div class="usuario-overlay"></div>
-        <div class="usuario-card">
+        <div
+            id="usuarioOverlay"
+            class="usuario-overlay"
+        ></div>
+        <div class="usuario-modal-card">
             <button
                 type="button"
-                class="usuario-cerrar"
                 id="cerrarUsuario"
+                class="usuario-cerrar"
+                aria-label="Cerrar"
             >
                 ✕
             </button>
@@ -317,42 +218,47 @@ function crearModalUsuario() {
             <h2>
                 Mi cuenta
             </h2>
-            <p
-                class="usuario-bienvenida"
-                id="usuarioBienvenida"
-            >
-                Participa opcionalmente
-                en nuestro programa.
+            <p class="usuario-subtitulo">
+                Regístrate opcionalmente y
+                participa en nuestros premios.
             </p>
+            <!-- REGISTRO -->
             <div
                 id="usuarioRegistro"
                 class="usuario-registro"
             >
+                <label>
+                    ¿Cómo te llamas?
+                </label>
                 <input
-                    type="text"
                     id="nombreUsuario"
-                    placeholder="Tu nombre"
+                    type="text"
                     maxlength="40"
+                    autocomplete="name"
+                    placeholder="Escribe tu nombre"
                 >
                 <button
                     type="button"
                     id="guardarUsuarioBtn"
+                    class="usuario-boton"
                 >
-                    👤 REGISTRARME
+                    👤 CREAR MI CUENTA
                 </button>
             </div>
+            <!-- PERFIL -->
             <div
                 id="usuarioPerfil"
                 class="usuario-perfil"
+                style="display:none;"
             >
-                <div class="usuario-nombre">
-                    👋
+                <div class="usuario-saludo">
+                    👋 Hola,
                     <strong
                         id="perfilNombre"
                     >
                     </strong>
                 </div>
-                <div class="usuario-stats">
+                <div class="usuario-estadisticas">
                     <div class="usuario-stat">
                         <span>
                             👀
@@ -376,7 +282,7 @@ function crearModalUsuario() {
                             0
                         </strong>
                         <small>
-                            Cupones
+                            Cupones usados
                         </small>
                     </div>
                     <div class="usuario-stat">
@@ -406,29 +312,38 @@ function crearModalUsuario() {
                         </small>
                     </div>
                 </div>
-                <div class="usuario-premios">
+                <div class="usuario-premio">
                     🏆
                     <strong>
                         Programa de premios
                     </strong>
                     <p>
                         Próximamente podrás
-                        subir tus comprobantes
-                        de compra y participar
-                        por premios.
+                        registrar tus compras
+                        y participar para ganar
+                        premios.
                     </p>
                 </div>
+                <button
+                    type="button"
+                    id="cerrarPerfilBtn"
+                    class="usuario-boton-secundario"
+                >
+                    CERRAR
+                </button>
             </div>
             <div
                 id="usuarioMensaje"
                 class="usuario-mensaje"
-            >
-            </div>
+            ></div>
         </div>
     `;
     document.body.appendChild(
         modal
     );
+    // =================================================
+    // CERRAR
+    // =================================================
     document
         .getElementById(
             "cerrarUsuario"
@@ -437,14 +352,25 @@ function crearModalUsuario() {
             "click",
             cerrarModalUsuario
         );
-    modal
-        .querySelector(
-            ".usuario-overlay"
+    document
+        .getElementById(
+            "usuarioOverlay"
         )
         ?.addEventListener(
             "click",
             cerrarModalUsuario
         );
+    document
+        .getElementById(
+            "cerrarPerfilBtn"
+        )
+        ?.addEventListener(
+            "click",
+            cerrarModalUsuario
+        );
+    // =================================================
+    // REGISTRAR
+    // =================================================
     document
         .getElementById(
             "guardarUsuarioBtn"
@@ -453,9 +379,70 @@ function crearModalUsuario() {
             "click",
             registrarUsuario
         );
+    // Enter en nombre
+    document
+        .getElementById(
+            "nombreUsuario"
+        )
+        ?.addEventListener(
+            "keydown",
+            event => {
+                if (
+                    event.key ===
+                    "Enter"
+                ) {
+                    registrarUsuario();
+                }
+            }
+        );
+    // =================================================
+    // MOSTRAR
+    // =================================================
     actualizarPerfil();
     modal.classList.add(
         "active"
+    );
+}
+// =====================================================
+// REGISTRAR USUARIO
+// =====================================================
+function registrarUsuario() {
+    const input =
+        document.getElementById(
+            "nombreUsuario"
+        );
+    if (!input) return;
+    const nombre =
+        input.value.trim();
+    if (!nombre) {
+        mostrarMensaje(
+            "⚠️ Escribe tu nombre"
+        );
+        input.focus();
+        return;
+    }
+    const usuario =
+        obtenerUsuario();
+    usuario.nombre =
+        nombre;
+    usuario.registrado =
+        true;
+    if (
+        !usuario.fechaRegistro
+    ) {
+        usuario.fechaRegistro =
+            new Date().toISOString();
+    }
+    guardarUsuario(
+        usuario
+    );
+    mostrarMensaje(
+        "🎉 ¡Cuenta creada correctamente!"
+    );
+    actualizarPerfil();
+    console.log(
+        "👤 Usuario registrado:",
+        usuario
     );
 }
 // =====================================================
@@ -464,7 +451,7 @@ function crearModalUsuario() {
 function actualizarPerfil() {
     const usuario =
         obtenerUsuario();
-    const estadisticas =
+    const datos =
         obtenerEstadisticas();
     const registro =
         document.getElementById(
@@ -520,36 +507,45 @@ function actualizarPerfil() {
     }
     if (visitas) {
         visitas.textContent =
-            estadisticas.visitas;
+            datos.visitas;
     }
     if (copias) {
         copias.textContent =
-            estadisticas.copias;
+            datos.copias;
     }
     if (ahorro) {
         ahorro.textContent =
             "$" +
-            estadisticas.ahorro
-                .toLocaleString(
-                    "es-MX"
-                );
+            Number(
+                datos.ahorro
+            ).toLocaleString(
+                "es-MX"
+            );
     }
     if (compras) {
         compras.textContent =
-            estadisticas.compras;
+            datos.compras;
     }
 }
 // =====================================================
-// ACTUALIZAR ESTADÍSTICAS
+// CERRAR MODAL
 // =====================================================
-function actualizarEstadisticasUsuario() {
-    actualizarPerfil();
+function cerrarModalUsuario() {
+    const modal =
+        document.getElementById(
+            "usuarioModal"
+        );
+    if (modal) {
+        modal.classList.remove(
+            "active"
+        );
+    }
 }
 // =====================================================
 // MENSAJE
 // =====================================================
-function mostrarMensajeUsuario(
-    mensaje
+function mostrarMensaje(
+    texto
 ) {
     const elemento =
         document.getElementById(
@@ -557,59 +553,79 @@ function mostrarMensajeUsuario(
         );
     if (!elemento) return;
     elemento.textContent =
-        mensaje;
+        texto;
     setTimeout(
         () => {
-            elemento.textContent =
-                "";
+            if (
+                elemento
+            ) {
+                elemento.textContent =
+                    "";
+            }
         },
         3000
     );
 }
 // =====================================================
-// BOTONES EXISTENTES DE INDEX
+// CONECTAR BOTONES DE INDEX
 // =====================================================
-document.addEventListener(
-    "DOMContentLoaded",
-    () => {
-        // Registrar una visita
-        registrarVisitaUsuario();
-        // Botón del header
-        const userBtn =
-            document.getElementById(
-                "userBtn"
-            );
-        userBtn?.addEventListener(
-            "click",
-            () => {
-                crearModalUsuario();
-            }
+function conectarBotonesUsuario() {
+    const userBtn =
+        document.getElementById(
+            "userBtn"
         );
-        // Botón de premios
-        const registerRewardBtn =
-            document.getElementById(
-                "registerRewardBtn"
-            );
-        registerRewardBtn?.addEventListener(
-            "click",
-            () => {
-                crearModalUsuario();
-            }
+    const registerRewardBtn =
+        document.getElementById(
+            "registerRewardBtn"
         );
-        // Botón de cuenta
-        const accountBtn =
-            document.getElementById(
-                "accountBtn"
-            );
-        accountBtn?.addEventListener(
-            "click",
-            () => {
-                crearModalUsuario();
-            }
+    const accountBtn =
+        document.getElementById(
+            "accountBtn"
         );
-        actualizarPerfil();
-    }
-);
+    userBtn?.addEventListener(
+        "click",
+        () => {
+            crearModalUsuario();
+        }
+    );
+    registerRewardBtn?.addEventListener(
+        "click",
+        () => {
+            crearModalUsuario();
+        }
+    );
+    accountBtn?.addEventListener(
+        "click",
+        () => {
+            crearModalUsuario();
+        }
+    );
+}
+// =====================================================
+// INICIO
+// =====================================================
+function iniciarUsuario() {
+    console.log(
+        "👤 Iniciando sistema de usuario..."
+    );
+    registrarVisitaUsuario();
+    conectarBotonesUsuario();
+    console.log(
+        "✅ Sistema de usuario listo"
+    );
+}
+if (
+    document.readyState ===
+    "loading"
+) {
+    document.addEventListener(
+        "DOMContentLoaded",
+        iniciarUsuario
+    );
+}
+else {
+    iniciarUsuario();
+}
 // =====================================================
 // FUNCIONES GLOBALES
 // =====================================================
@@ -623,13 +639,15 @@ window.registrarCopiaUsuario =
     registrarCopiaUsuario;
 window.registrarCompraUsuario =
     registrarCompraUsuario;
-window.abrirPerfilUsuario =
-    abrirPerfilUsuario;
 window.crearModalUsuario =
     crearModalUsuario;
+window.abrirPerfilUsuario =
+    crearModalUsuario;
+window.cerrarModalUsuario =
+    cerrarModalUsuario;
 // =====================================================
 // FIN
 // =====================================================
 console.log(
-    "👤 Sistema de usuario preparado"
+    "👤 USUARIO.JS PREPARADO"
 );
