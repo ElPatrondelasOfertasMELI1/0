@@ -2,34 +2,48 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-    <meta
-        name="theme-color"
-        content="#ffe600"
-    >
-    <meta
-        name="description"
-        content="Cupones y ofertas de Mercado Libre México. Cupones relámpago, bancarios y exclusivos."
-    >
-    <title>
-        ⚡ El Patrón de las Ofertas
-    </title>
-    <!-- FUENTE -->
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
-        rel="stylesheet"
-    >
-    <!-- CSS -->
-    <link
-        rel="stylesheet"
-        href="style.css"
-    >
- <link
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+<meta
+    name="theme-color"
+    content="#ffe600"
+>
+<meta
+    name="description"
+    content="Cupones, ofertas y descuentos de Mercado Libre México."
+>
+<title>⚡ El Patrón de las Ofertas</title>
+<!-- =====================================================
+     FUENTE
+====================================================== -->
+<link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+>
+<link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+>
+<link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
     rel="stylesheet"
-    href="usuario.css"
+>
+<!-- =====================================================
+     CSS PRINCIPAL
+====================================================== -->
+<link
+    rel="stylesheet"
+    href="style.css"
+>
+<!-- =====================================================
+     CSS USUARIO
+====================================================== -->
+<link
+    rel="stylesheet"
+    href="usuario/usuario.css"
 >
 </head>
 <body>
@@ -37,38 +51,41 @@
      HEADER
 ===================================================== -->
 <header class="header">
-    <div class="header-inner">
-        <button
-            class="menu-btn"
-            id="menuBtn"
-            aria-label="Abrir menú"
-        >
-            ☰
-        </button>
-        <a
-            href="#"
-            class="logo"
-        >
-            <span class="logo-icon">
-                ⚡
-            </span>
-            <span class="logo-text">
-                <strong>
-                    EL PATRÓN
-                </strong>
-                <small>
-                    DE LAS OFERTAS
-                </small>
-            </span>
-        </a>
-        <button
-            class="user-btn"
-            id="userBtn"
-            aria-label="Mi cuenta"
-        >
-            👤
-        </button>
-    </div>
+<div class="header-inner">
+    <button
+        class="menu-btn"
+        id="menuBtn"
+        type="button"
+        aria-label="Abrir menú"
+    >
+        ☰
+    </button>
+    <a
+        href="#inicio"
+        class="logo"
+        aria-label="El Patrón de las Ofertas"
+    >
+        <span class="logo-icon">
+            ⚡
+        </span>
+        <span class="logo-text">
+            <strong>
+                EL PATRÓN
+            </strong>
+            <small>
+                DE LAS OFERTAS
+            </small>
+        </span>
+    </a>
+    <button
+        class="user-btn"
+        id="userBtn"
+        type="button"
+        aria-label="Mi cuenta"
+    >
+        👤
+    </button>
+</div>
 </header>
 <!-- =====================================================
      MENÚ LATERAL
@@ -76,153 +93,354 @@
 <div
     class="menu-overlay"
     id="menuOverlay"
->
-</div>
+></div>
 <aside
     class="side-menu"
     id="sideMenu"
+    aria-hidden="true"
 >
-    <div class="side-header">
-        <div class="side-logo">
-            ⚡ EL PATRÓN
-        </div>
-        <button
-            id="closeMenu"
-            class="close-menu"
-        >
-            ✕
-        </button>
+<div class="side-header">
+    <div class="side-logo">
+        ⚡ EL PATRÓN
     </div>
-    <nav>
-        <a href="#inicio">
-            🏠 Inicio
-        </a>
-        <a href="#relampago">
-            ⚡ Cupones Relámpago
-        </a>
-        <a href="#exclusivos">
-            ⭐ Cupones Exclusivos
-        </a>
-        <a href="#bancarios">
-            💳 Cupones Bancarios
-        </a>
-        <a href="#premios">
-            🏆 Premios
-        </a>
-        <a href="#mi-cuenta">
-            👤 Mi cuenta
-        </a>
-    </nav>
+    <button
+        id="closeMenu"
+        class="close-menu"
+        type="button"
+        aria-label="Cerrar menú"
+    >
+        ✕
+    </button>
+</div>
+<nav class="side-nav">
+    <a href="#inicio">
+        🏠 Inicio
+    </a>
+    <a href="#cupones">
+        🎟️ Cupones
+    </a>
+    <a href="#ofertas">
+        🔥 Ofertas
+    </a>
+    <a href="#categorias">
+        🛍️ Categorías
+    </a>
+    <a href="#relampago">
+        ⚡ Relámpago
+    </a>
+    <a href="#exclusivos">
+        ⭐ Exclusivos
+    </a>
+    <a href="#bancarios">
+        💳 Bancarios
+    </a>
+    <a href="#premios">
+        🏆 Premios
+    </a>
+    <a href="#mi-cuenta">
+        👤 Mi cuenta
+    </a>
+</nav>
 </aside>
 <!-- =====================================================
-     CONTENIDO
+     CONTENIDO PRINCIPAL
 ===================================================== -->
 <main id="inicio">
 <!-- =====================================================
      HERO
 ===================================================== -->
 <section class="hero">
-    <div class="hero-content">
-        <span class="hero-badge">
-            🔥 CUPONES ACTIVOS
+<div class="hero-content">
+    <span class="hero-badge">
+        🔥 CUPONES Y OFERTAS ACTIVAS
+    </span>
+    <h1>
+        Los mejores cupones
+        <span>
+            de Mercado Libre
         </span>
-        <h1>
-            Los mejores cupones
-            <span>
-                de Mercado Libre
-            </span>
-        </h1>
-        <p>
-            Encuentra descuentos, cupones relámpago,
-            bancarios y exclusivos en un solo lugar.
-        </p>
-        <div class="hero-buttons">
-            <a
-                href="#relampago"
-                class="btn btn-primary"
-            >
-                ⚡ VER CUPONES
-            </a>
-            <a
-                href="#premios"
-                class="btn btn-secondary"
-            >
-                🏆 PREMIOS
-            </a>
-        </div>
+    </h1>
+    <p>
+        Encuentra cupones, descuentos y las mejores
+        ofertas de Mercado Libre México en un solo lugar.
+    </p>
+    <div class="hero-buttons">
+        <a
+            href="#cupones"
+            class="btn btn-primary"
+        >
+            🎟️ VER CUPONES
+        </a>
+        <a
+            href="#ofertas"
+            class="btn btn-secondary"
+        >
+            🔥 VER OFERTAS
+        </a>
     </div>
+</div>
 </section>
 <!-- =====================================================
-     BANNER MERCADO PAGO
+     BENEFICIO MERCADO PAGO
 ===================================================== -->
 <section class="promo-section">
-    <div class="promo-card">
-        <div class="promo-icon">
-            💳
-        </div>
-        <div class="promo-content">
-            <span>
-                BENEFICIO ESPECIAL
-            </span>
-            <h2>
-                $100 Mercado Pago GRATIS
-            </h2>
-            <p>
-                Aprovecha el beneficio disponible
-                y comienza a ahorrar.
-            </p>
-        </div>
-        <button class="promo-btn">
-            VER BENEFICIO
-        </button>
+<div class="promo-card">
+    <div class="promo-icon">
+        💳
     </div>
+    <div class="promo-content">
+        <span>
+            BENEFICIO ESPECIAL
+        </span>
+        <h2>
+            $100 Mercado Pago GRATIS
+        </h2>
+        <p>
+            Aprovecha el beneficio disponible
+            y comienza a ahorrar.
+        </p>
+    </div>
+    <button
+        class="promo-btn"
+        id="mercadoPagoBtn"
+        type="button"
+    >
+        VER BENEFICIO
+    </button>
+</div>
 </section>
 <!-- =====================================================
      CATEGORÍAS
 ===================================================== -->
-<section class="categories">
+<section
+    class="categories-section"
+    id="categorias"
+>
+<div class="section-heading">
+    <div>
+        <span class="section-label">
+            🛍️ ENCUENTRA LO QUE BUSCAS
+        </span>
+        <h2>
+            Categorías
+        </h2>
+    </div>
+</div>
+<div
+    class="categories"
+    id="categoriesContainer"
+>
     <a
-        href="#relampago"
+        href="categorias/pantallas.html"
         class="category"
     >
-        <div class="category-icon flash">
-            ⚡
+        <div class="category-icon">
+            📺
         </div>
         <strong>
-            Relámpago
+            Pantallas
         </strong>
         <span>
-            Descuentos rápidos
+            Smart TV y más
         </span>
     </a>
     <a
-        href="#exclusivos"
+        href="categorias/videojuegos.html"
         class="category"
     >
-        <div class="category-icon exclusive">
-            ⭐
+        <div class="category-icon">
+            🎮
         </div>
         <strong>
-            Exclusivos
+            Videojuegos
         </strong>
         <span>
-            Beneficios especiales
+            Consolas y juegos
         </span>
     </a>
     <a
-        href="#bancarios"
+        href="categorias/celulares.html"
         class="category"
     >
-        <div class="category-icon bank">
-            💳
+        <div class="category-icon">
+            📱
         </div>
         <strong>
-            Bancarios
+            Celulares
         </strong>
         <span>
-            Descuentos con bancos
+            Smartphones
         </span>
     </a>
+    <a
+        href="categorias/laptops.html"
+        class="category"
+    >
+        <div class="category-icon">
+            💻
+        </div>
+        <strong>
+            Laptops
+        </strong>
+        <span>
+            Computadoras
+        </span>
+    </a>
+    <a
+        href="categorias/electronica.html"
+        class="category"
+    >
+        <div class="category-icon">
+            🎧
+        </div>
+        <strong>
+            Electrónica
+        </strong>
+        <span>
+            Tecnología
+        </span>
+    </a>
+    <a
+        href="categorias/moda.html"
+        class="category"
+    >
+        <div class="category-icon">
+            👟
+        </div>
+        <strong>
+            Moda
+        </strong>
+        <span>
+            Ropa y calzado
+        </span>
+    </a>
+    <a
+        href="categorias/hogar.html"
+        class="category"
+    >
+        <div class="category-icon">
+            🏠
+        </div>
+        <strong>
+            Hogar
+        </strong>
+        <span>
+            Todo para casa
+        </span>
+    </a>
+    <a
+        href="categorias/escolar.html"
+        class="category"
+    >
+        <div class="category-icon">
+            🎒
+        </div>
+        <strong>
+            Escolar
+        </strong>
+        <span>
+            Regreso a clases
+        </span>
+    </a>
+    <a
+        href="categorias/juguetes.html"
+        class="category"
+    >
+        <div class="category-icon">
+            🧸
+        </div>
+        <strong>
+            Juguetes
+        </strong>
+        <span>
+            Ofertas para niños
+        </span>
+    </a>
+</div>
+</section>
+<!-- =====================================================
+     CARRUSEL PRINCIPAL DE OFERTAS
+===================================================== -->
+<section
+    class="offers-section"
+    id="ofertas"
+>
+<div class="section-heading">
+    <div>
+        <span class="section-label">
+            🔥 OFERTAS DESTACADAS
+        </span>
+        <h2>
+            Ofertas que no te puedes perder
+        </h2>
+    </div>
+    <span class="section-count">
+        ⚡ EN VIVO
+    </span>
+</div>
+<div
+    class="offers-carousel-wrapper"
+    id="offersCarouselWrapper"
+>
+    <button
+        class="carousel-arrow carousel-prev"
+        id="offersPrev"
+        type="button"
+        aria-label="Oferta anterior"
+    >
+        ‹
+    </button>
+    <div
+        class="offers-carousel"
+        id="offersCarousel"
+    >
+        <div class="empty-card">
+            <div>
+                🔥
+            </div>
+            <strong>
+                Cargando ofertas...
+            </strong>
+            <span>
+                Estamos buscando las mejores ofertas.
+            </span>
+        </div>
+    </div>
+    <button
+        class="carousel-arrow carousel-next"
+        id="offersNext"
+        type="button"
+        aria-label="Siguiente oferta"
+    >
+        ›
+    </button>
+</div>
+<div
+    class="carousel-dots"
+    id="offersDots"
+>
+</div>
+</section>
+<!-- =====================================================
+     CUPONES
+===================================================== -->
+<section
+    class="coupon-section"
+    id="cupones"
+>
+<div class="section-heading">
+    <div>
+        <span class="section-label">
+            🎟️ DESCUENTOS
+        </span>
+        <h2>
+            Cupones disponibles
+        </h2>
+    </div>
+    <span class="section-count">
+        🔥 ACTIVOS
+    </span>
+</div>
 </section>
 <!-- =====================================================
      CUPONES RELÁMPAGO
@@ -231,43 +449,40 @@
     class="coupon-section"
     id="relampago"
 >
-    <div class="section-heading">
+<div class="section-heading">
+    <div>
+        <span class="section-label">
+            ⚡ DESCUENTOS RÁPIDOS
+        </span>
+        <h2>
+            Cupones Relámpago
+        </h2>
+    </div>
+    <span class="section-count">
+        🔥 ACTIVOS
+    </span>
+</div>
+<div
+    class="coupon-carousel"
+    id="relampagoCarousel"
+>
+    <div class="empty-card">
         <div>
-            <span class="section-label">
-                ⚡ DESCUENTOS RÁPIDOS
-            </span>
-            <h2>
-                Cupones Relámpago
-            </h2>
+            ⚡
         </div>
-        <span class="section-count">
-            🔥 ACTIVOS
+        <strong>
+            Cargando cupones...
+        </strong>
+        <span>
+            Estamos buscando los mejores descuentos.
         </span>
     </div>
-    <div
-        class="coupon-carousel"
-        id="relampagoCarousel"
-    >
-        <!-- LOS CUPONES SE CARGARÁN DESPUÉS -->
-        <div class="empty-card">
-            <div>
-                ⚡
-            </div>
-            <strong>
-                Cargando cupones...
-            </strong>
-            <span>
-                Estamos buscando los mejores descuentos.
-            </span>
-        </div>
-    </div>
-    <div class="carousel-dots">
-        <span class="active"></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-    </div>
+</div>
+<div
+    class="carousel-dots"
+    id="relampagoDots"
+>
+</div>
 </section>
 <!-- =====================================================
      CUPONES EXCLUSIVOS
@@ -276,32 +491,32 @@
     class="coupon-section"
     id="exclusivos"
 >
-    <div class="section-heading">
+<div class="section-heading">
+    <div>
+        <span class="section-label">
+            ⭐ BENEFICIOS ESPECIALES
+        </span>
+        <h2>
+            Cupones Exclusivos
+        </h2>
+    </div>
+</div>
+<div
+    class="coupon-grid"
+    id="exclusivosGrid"
+>
+    <div class="empty-card">
         <div>
-            <span class="section-label">
-                ⭐ BENEFICIOS ESPECIALES
-            </span>
-            <h2>
-                Cupones Exclusivos
-            </h2>
+            ⭐
         </div>
+        <strong>
+            Próximamente
+        </strong>
+        <span>
+            Aquí aparecerán tus cupones exclusivos.
+        </span>
     </div>
-    <div
-        class="coupon-grid"
-        id="exclusivosGrid"
-    >
-        <div class="empty-card">
-            <div>
-                ⭐
-            </div>
-            <strong>
-                Próximamente
-            </strong>
-            <span>
-                Aquí aparecerán tus cupones exclusivos.
-            </span>
-        </div>
-    </div>
+</div>
 </section>
 <!-- =====================================================
      CUPONES BANCARIOS
@@ -310,32 +525,32 @@
     class="coupon-section"
     id="bancarios"
 >
-    <div class="section-heading">
+<div class="section-heading">
+    <div>
+        <span class="section-label">
+            💳 DESCUENTOS CON TARJETA
+        </span>
+        <h2>
+            Cupones Bancarios
+        </h2>
+    </div>
+</div>
+<div
+    class="coupon-grid"
+    id="bancariosGrid"
+>
+    <div class="empty-card">
         <div>
-            <span class="section-label">
-                💳 DESCUENTOS CON TARJETA
-            </span>
-            <h2>
-                Cupones Bancarios
-            </h2>
+            💳
         </div>
+        <strong>
+            Próximamente
+        </strong>
+        <span>
+            Aquí aparecerán los cupones bancarios.
+        </span>
     </div>
-    <div
-        class="coupon-grid"
-        id="bancariosGrid"
-    >
-        <div class="empty-card">
-            <div>
-                💳
-            </div>
-            <strong>
-                Próximamente
-            </strong>
-            <span>
-                Aquí aparecerán los cupones bancarios.
-            </span>
-        </div>
-    </div>
+</div>
 </section>
 <!-- =====================================================
      PREMIOS
@@ -344,53 +559,54 @@
     class="rewards-section"
     id="premios"
 >
-    <div class="rewards-card">
-        <div class="trophy">
-            🏆
-        </div>
-        <span class="section-label">
-            PROGRAMA DE PREMIOS
-        </span>
-        <h2>
-            ¡Compra y gana!
-        </h2>
-        <p>
-            Regístrate opcionalmente, utiliza nuestros
-            cupones y acumula estadísticas de tus compras.
-        </p>
-        <div class="reward-features">
-            <div>
-                👀
-                <span>
-                    Tus visitas
-                </span>
-            </div>
-            <div>
-                📋
-                <span>
-                    Cupones usados
-                </span>
-            </div>
-            <div>
-                💰
-                <span>
-                    Dinero ahorrado
-                </span>
-            </div>
-            <div>
-                🏆
-                <span>
-                    Premios
-                </span>
-            </div>
-        </div>
-        <button
-            class="btn btn-primary"
-            id="registerRewardBtn"
-        >
-            👤 PARTICIPAR
-        </button>
+<div class="rewards-card">
+    <div class="trophy">
+        🏆
     </div>
+    <span class="section-label">
+        PROGRAMA DE PREMIOS
+    </span>
+    <h2>
+        ¡Compra y gana!
+    </h2>
+    <p>
+        Regístrate opcionalmente, utiliza nuestros
+        cupones y acumula estadísticas.
+    </p>
+    <div class="reward-features">
+        <div>
+            👀
+            <span>
+                Visitas
+            </span>
+        </div>
+        <div>
+            📋
+            <span>
+                Cupones usados
+            </span>
+        </div>
+        <div>
+            💰
+            <span>
+                Dinero ahorrado
+            </span>
+        </div>
+        <div>
+            🏆
+            <span>
+                Premios
+            </span>
+        </div>
+    </div>
+    <button
+        class="btn btn-primary"
+        id="registerRewardBtn"
+        type="button"
+    >
+        👤 PARTICIPAR
+    </button>
+</div>
 </section>
 <!-- =====================================================
      MI CUENTA
@@ -399,55 +615,59 @@
     class="account-section"
     id="mi-cuenta"
 >
-    <div class="account-card">
-        <div class="account-icon">
-            👤
-        </div>
-        <h2>
-            Mi cuenta
-        </h2>
-        <p>
-            Regístrate para participar en el programa
-            de premios.
-        </p>
-        <button
-            class="btn btn-primary"
-            id="accountBtn"
-        >
-            🔐 CREAR CUENTA
-        </button>
+<div class="account-card">
+    <div class="account-icon">
+        👤
     </div>
+    <h2>
+        Mi cuenta
+    </h2>
+    <p>
+        Regístrate opcionalmente para participar
+        en el programa de premios.
+    </p>
+    <button
+        class="btn btn-primary"
+        id="accountBtn"
+        type="button"
+    >
+        🔐 CREAR CUENTA
+    </button>
+</div>
 </section>
 <!-- =====================================================
      FOOTER
 ===================================================== -->
 <footer class="footer">
-    <div class="footer-logo">
-        ⚡ EL PATRÓN DE LAS OFERTAS
-    </div>
-    <p>
-        Cupones y ofertas de Mercado Libre México.
-    </p>
-    <div class="footer-links">
-        <a href="#inicio">
-            Inicio
-        </a>
-        <a href="#relampago">
-            Relámpago
-        </a>
-        <a href="#exclusivos">
-            Exclusivos
-        </a>
-        <a href="#bancarios">
-            Bancarios
-        </a>
-        <a href="#premios">
-            Premios
-        </a>
-    </div>
-    <small>
-        © 2026 El Patrón de las Ofertas
-    </small>
+<div class="footer-logo">
+    ⚡ EL PATRÓN DE LAS OFERTAS
+</div>
+<p>
+    Cupones y ofertas de Mercado Libre México.
+</p>
+<div class="footer-links">
+    <a href="#inicio">
+        Inicio
+    </a>
+    <a href="#ofertas">
+        Ofertas
+    </a>
+    <a href="#cupones">
+        Cupones
+    </a>
+    <a href="#categorias">
+        Categorías
+    </a>
+    <a href="#premios">
+        Premios
+    </a>
+    <a href="#mi-cuenta">
+        Mi cuenta
+    </a>
+</div>
+<small>
+    © 2026 El Patrón de las Ofertas
+</small>
 </footer>
 </main>
 <!-- =====================================================
@@ -456,67 +676,92 @@
 <div
     id="toast"
     class="toast"
+    role="status"
+    aria-live="polite"
 >
 </div>
 <!-- =====================================================
-     JAVASCRIPT BASE
+     MENÚ PRINCIPAL
 ===================================================== -->
 <script>
 const menuBtn =
     document.getElementById("menuBtn");
-
 const closeMenu =
     document.getElementById("closeMenu");
-
 const sideMenu =
     document.getElementById("sideMenu");
-
 const menuOverlay =
     document.getElementById("menuOverlay");
-
-function abrirMenu(){
+function abrirMenu() {
     sideMenu.classList.add("active");
     menuOverlay.classList.add("active");
+    sideMenu.setAttribute(
+        "aria-hidden",
+        "false"
+    );
 }
-
-function cerrarMenu(){
+function cerrarMenu() {
     sideMenu.classList.remove("active");
     menuOverlay.classList.remove("active");
+    sideMenu.setAttribute(
+        "aria-hidden",
+        "true"
+    );
 }
-
 menuBtn?.addEventListener(
     "click",
     abrirMenu
 );
-
 closeMenu?.addEventListener(
     "click",
     cerrarMenu
 );
-
 menuOverlay?.addEventListener(
     "click",
     cerrarMenu
 );
-
 document
     .querySelectorAll(".side-menu a")
     .forEach(enlace => {
-
         enlace.addEventListener(
             "click",
             cerrarMenu
         );
-
     });
+document.addEventListener(
+    "keydown",
+    evento => {
+        if (
+            evento.key === "Escape"
+        ) {
+            cerrarMenu();
+        }
+    }
+);
 </script>
-
-<!-- APP PRINCIPAL -->
-<script src="home.js"></script>
-<script src="mercado-libre.js"></script>
-<script src="cupones.js"></script>
-<script src="carrusel.js"></script>
-<script src="usuario.js"></script>
-
+<!-- =====================================================
+     APP PRINCIPAL
+===================================================== -->
+<script
+    src="app/home.js"
+></script>
+<script
+    src="app/mercado-libre.js"
+></script>
+<script
+    src="app/cupones.js"
+></script>
+<script
+    src="app/carrusel.js"
+></script>
+<script
+    src="app/categorias.js"
+></script>
+<!-- =====================================================
+     SISTEMA DE USUARIO
+===================================================== -->
+<script
+    src="usuario/usuario.js"
+></script>
 </body>
 </html>
