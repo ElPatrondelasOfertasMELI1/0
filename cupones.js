@@ -113,33 +113,50 @@ function crearTarjetaCupon(cupon) {
             ".coupon-copy"
         );
     boton.addEventListener(
-        "click",
-        () => {
-            // Usamos ÚNICAMENTE el sistema
-            // de mercado-libre.js
-            if (
-                typeof window.copiarYabrirMercadoLibre
-                === "function"
-            ) {
-                window.copiarYabrirMercadoLibre(
-                    cupon.codigo,
-                    cupon.link
-                );
-            }
-            else {
-                console.error(
-                    "❌ mercado-libre.js no está cargado"
-                );
-                if (
-                    window.mostrarToast
-                ) {
-                    window.mostrarToast(
-                        "❌ Sistema de Mercado Libre no disponible"
-                    );
-                }
-            }
+    "click",
+    () => {
+
+        // Registrar copia en el perfil del usuario
+        if (
+            typeof window.registrarCopiaUsuario ===
+            "function"
+        ) {
+            window.registrarCopiaUsuario();
         }
-    );
+
+        // Sistema de Mercado Libre
+        if (
+            typeof window.copiarYabrirMercadoLibre
+            === "function"
+        ) {
+
+            window.copiarYabrirMercadoLibre(
+                cupon.codigo,
+                cupon.link
+            );
+
+        }
+
+        else {
+
+            console.error(
+                "❌ mercado-libre.js no está cargado"
+            );
+
+            if (
+                window.mostrarToast
+            ) {
+
+                window.mostrarToast(
+                    "❌ Sistema de Mercado Libre no disponible"
+                );
+
+            }
+
+        }
+
+    }
+);
     return tarjeta;
 }
 // =====================================================
