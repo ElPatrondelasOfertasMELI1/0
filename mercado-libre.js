@@ -14,6 +14,7 @@ function esAndroid(){
 
 }
 
+
 function esIOS(){
 
     return /iPhone|iPad|iPod/i.test(
