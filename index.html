@@ -1,488 +1,197 @@
-<!DOCTYPE html>
-<html lang="es-MX">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>⚡ El Patrón de las Ofertas</title>
-
-<meta name="description" content="Cupones y ofertas actualizadas de Mercado Libre México. Copia tu cupón y ahorra en cada compra.">
-
-<link rel="stylesheet" href="./style.css">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
-<link rel="icon" href="./assets/logo.png">
-</head>
-
-<body>
-
-<!-- ========================= -->
-<!-- HEADER -->
-<!-- ========================= -->
-
-<header class="header">
-
-<div class="container header-container">
-
-<a href="/" class="logo">
-
-<div class="logo-icon">⚡</div>
-
-<div class="logo-text">
-<h1>EL PATRÓN DE LAS OFERTAS</h1>
-<span>Cupones y ofertas Mercado Libre México</span>
-</div>
-
-</a>
-
-<nav class="nav">
-
-<a href="#relampago">Relámpago</a>
-
-<a href="#exclusivos">Exclusivos</a>
-
-<a href="#bancarios">Bancarios</a>
-
-<a href="#ofertas">Ofertas</a>
-
-<a href="./usuario/usuario.html" class="btn-account">
-Mi Cuenta
-</a>
-
-</nav>
-
-<button class="mobile-menu-btn" id="mobileMenuBtn">
-☰
-</button>
-
-</div>
-
-<div class="mobile-menu" id="mobileMenu">
-
-<a href="#relampago">Relámpago</a>
-
-<a href="#exclusivos">Exclusivos</a>
-
-<a href="#bancarios">Bancarios</a>
-
-<a href="#ofertas">Ofertas</a>
-
-<a href="./usuario/usuario.html">Mi Cuenta</a>
-
-</div>
-
-</header>
-
-<!-- ========================= -->
-<!-- MAIN -->
-<!-- ========================= -->
-
-<main>
-
-<!-- ========================= -->
-<!-- HERO -->
-<!-- ========================= -->
-
-<section class="hero">
-
-<div class="container">
-
-<div class="hero-content">
-
-<h2>
-🔥 Los mejores cupones y ofertas de Mercado Libre México
-</h2>
-
-<p>
-Copia tu cupón, actívalo y compra con descuento.
-Actualizado diariamente.
-</p>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- ========================= -->
-<!-- BANNER ADMINISTRABLE -->
-<!-- ========================= -->
-
-<section class="banner-section">
-
-<div class="container">
-
-<div
-id="mercadoPagoBanner"
-class="mercado-pago-banner"
->
-
-<div class="banner-content">
-
-<div>
-
-<span class="banner-tag">
-MERCADO PAGO
-</span>
-
-<h2 id="bannerTitle">
-🎁 $100 GRATIS PARA NUEVOS USUARIOS
-</h2>
-
-<p id="bannerDescription">
-Regístrate por primera vez y recibe tu beneficio de bienvenida.
-</p>
-
-</div>
-
-<a
-id="bannerButton"
-href="#"
-target="_blank"
-class="banner-btn"
->
-👉 VER BENEFICIO
-</a>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- ========================= -->
-<!-- CARRUSEL PRINCIPAL -->
-<!-- ========================= -->
-
-<section class="section">
-
-<div class="container">
-
-<div class="section-header">
-
-<h2>🎟️ CUPONES DESTACADOS</h2>
-
-</div>
-
-<div class="carousel-wrapper">
-
-<button
-class="carousel-btn prev"
-id="mainPrev"
->
-‹
-</button>
-
-<div
-class="carousel-track"
-id="mainCouponsCarousel"
->
-
-<!-- JS -->
-
-</div>
-
-<button
-class="carousel-btn next"
-id="mainNext"
->
-›
-</button>
-
-</div>
-
-<div
-class="carousel-dots"
-id="mainDots"
->
-</div>
-
-</div>
-
-</section>
-
-<!-- ========================= -->
-<!-- CUPONES RELAMPAGO -->
-<!-- ========================= -->
-
-<section
-id="relampago"
-class="section"
->
-
-<div class="container">
-
-<div class="section-header">
-
-<h2>⚡ CUPONES RELÁMPAGO</h2>
-
-</div>
-
-<div
-class="coupon-grid"
-id="relampagoContainer"
->
-
-</div>
-
-</div>
-
-</section>
-
-<!-- ========================= -->
-<!-- CUPONES EXCLUSIVOS -->
-<!-- ========================= -->
-
-<section
-id="exclusivos"
-class="section gray-section"
->
-
-<div class="container">
-
-<div class="section-header">
-
-<h2>⭐ CUPONES EXCLUSIVOS</h2>
-
-</div>
-
-<div
-class="coupon-grid"
-id="exclusivosContainer"
->
-
-</div>
-
-</div>
-
-</section>
-
-<!-- ========================= -->
-<!-- CUPONES BANCARIOS -->
-<!-- ========================= -->
-
-<section
-id="bancarios"
-class="section"
->
-
-<div class="container">
-
-<div class="section-header">
-
-<h2>💳 CUPONES BANCARIOS</h2>
-
-</div>
-
-<div
-class="coupon-grid"
-id="bancariosContainer"
->
-
-</div>
-
-</div>
-
-</section>
-
-<!-- ========================= -->
-<!-- OFERTAS DESTACADAS -->
-<!-- ========================= -->
-
-<section
-id="ofertas"
-class="section gray-section"
->
-
-<div class="container">
-
-<div class="section-header">
-
-<h2>🔥 OFERTAS DESTACADAS</h2>
-
-</div>
-
-<div class="carousel-wrapper">
-
-<button
-class="carousel-btn prev"
-id="offerPrev"
->
-‹
-</button>
-
-<div
-id="offersCarousel"
-class="carousel-track"
->
-
-</div>
-
-<button
-class="carousel-btn next"
-id="offerNext"
->
-›
-</button>
-
-</div>
-
-<div
-class="carousel-dots"
-id="offerDots"
->
-</div>
-
-</div>
-
-</section>
-
-<!-- ========================= -->
-<!-- PROGRAMA PREMIOS -->
-<!-- ========================= -->
-
-<section class="section">
-
-<div class="container">
-
-<div class="section-header">
-
-<h2>🏆 ¡COMPRA Y GANA!</h2>
-
-</div>
-
-<div class="rewards-grid">
-
-<div class="reward-card">
-
-<span>👀</span>
-
-<h3 id="totalVisits">
-0
-</h3>
-
-<p>Visitas</p>
-
-</div>
-
-<div class="reward-card">
-
-<span>📋</span>
-
-<h3 id="totalCopies">
-0
-</h3>
-
-<p>Cupones copiados</p>
-
-</div>
-
-<div class="reward-card">
-
-<span>💰</span>
-
-<h3 id="totalSavings">
-$0
-</h3>
-
-<p>Ahorro generado</p>
-
-</div>
-
-<div class="reward-card">
-
-<span>🏆</span>
-
-<h3 id="userLevel">
-BÁSICO
-</h3>
-
-<p>Nivel actual</p>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-</main>
-
-<!-- ========================= -->
-<!-- FOOTER -->
-<!-- ========================= -->
-
-<footer class="footer">
-
-<div class="container">
-
-<div class="footer-content">
-
-<div>
-
-<h3>⚡ EL PATRÓN DE LAS OFERTAS</h3>
-
-<p>
-Las mejores promociones y cupones actualizados.
-</p>
-
-</div>
-
-<div>
-
-<a href="./usuario/usuario.html">
-Mi cuenta
-</a>
-
-</div>
-
-</div>
-
-<div class="footer-bottom">
-
-© 2026 El Patrón de las Ofertas
-
-</div>
-
-</div>
-
-</footer>
-
-<!-- ========================= -->
-<!-- TOAST -->
-<!-- ========================= -->
-
-<div
-id="toast"
-class="toast"
->
-✅ CUPÓN COPIADO
-</div>
-
-<!-- ========================= -->
-<!-- SCRIPTS -->
-<!-- ========================= -->
-
-<script type="module" src="./js/firebase.js"></script>
-
-<script type="module" src="./js/app.js"></script>
-
-<script type="module" src="./js/cupones.js"></script>
-
-<script type="module" src="./js/ofertas.js"></script>
-
-<script type="module" src="./js/carrusel.js"></script>
-
-<script type="module" src="./js/mercado-libre.js"></script>
-
-<script type="module" src="./js/usuario.js"></script>
-
-<script type="module" src="./js/estadisticas.js"></script>
-
-</body>
-</html>
+// =====================================================
+// EL PATRÓN DE LAS OFERTAS
+// NUEVA PLATAFORMA
+// HOME.JS
+// =====================================================
+// =====================================================
+// ELEMENTOS
+// =====================================================
+const btnMenu =
+    document.getElementById("btnMenu");
+const cerrarMenu =
+    document.getElementById("cerrarMenu");
+const menu =
+    document.getElementById("menu");
+const overlay =
+    document.getElementById("overlay");
+const menuCuenta =
+    document.getElementById("menuCuenta");
+const btnCuenta =
+    document.getElementById("btnCuenta");
+const btnParticipar =
+    document.getElementById("btnParticipar");
+const carrusel =
+    document.getElementById("carrusel");
+const btnAnterior =
+    document.getElementById("btnAnterior");
+const btnSiguiente =
+    document.getElementById("btnSiguiente");
+// =====================================================
+// MENÚ
+// =====================================================
+function abrirMenu(){
+    menu?.classList.add("active");
+    overlay?.classList.add("active");
+}
+function cerrarMenuFuncion(){
+    menu?.classList.remove("active");
+    overlay?.classList.remove("active");
+}
+btnMenu?.addEventListener(
+    "click",
+    abrirMenu
+);
+cerrarMenu?.addEventListener(
+    "click",
+    cerrarMenuFuncion
+);
+overlay?.addEventListener(
+    "click",
+    cerrarMenuFuncion
+);
+// =====================================================
+// CUENTA
+// =====================================================
+function abrirCuenta(){
+    cerrarMenuFuncion();
+    // Próximamente conectaremos
+    // Firebase Authentication.
+    mostrarToast(
+        "👤 Mi cuenta estará disponible próximamente"
+    );
+}
+btnCuenta?.addEventListener(
+    "click",
+    abrirCuenta
+);
+menuCuenta?.addEventListener(
+    "click",
+    abrirCuenta
+);
+btnParticipar?.addEventListener(
+    "click",
+    abrirCuenta
+);
+// =====================================================
+// TOAST
+// =====================================================
+function mostrarToast(texto){
+    const toast =
+        document.getElementById("toast");
+    if(!toast) return;
+    toast.textContent =
+        texto;
+    toast.classList.add("show");
+    setTimeout(()=>{
+        toast.classList.remove("show");
+    },2500);
+}
+// =====================================================
+// CARRUSEL
+// =====================================================
+btnAnterior?.addEventListener(
+    "click",
+    ()=>{
+        carrusel?.scrollBy({
+            left:-280,
+            behavior:"smooth"
+        });
+    }
+);
+btnSiguiente?.addEventListener(
+    "click",
+    ()=>{
+        carrusel?.scrollBy({
+            left:280,
+            behavior:"smooth"
+        });
+    }
+);
+// =====================================================
+// DATOS DE PRUEBA
+// TEMPORALES
+// =====================================================
+const ofertasDemo = [
+    {
+        titulo:
+            "Oferta de ejemplo Mercado Libre",
+        precioAntes:
+            "1,999",
+        precioFinal:
+            "1,299",
+        descuento:
+            "35% OFF",
+        imagen:
+            "https://http2.mlstatic.com/D_NQ_NP_2X_000000-MLA00000000000_000000-F.webp"
+    },
+    {
+        titulo:
+            "Oferta especial del día",
+        precioAntes:
+            "3,499",
+        precioFinal:
+            "2,499",
+        descuento:
+            "29% OFF",
+        imagen:
+            "https://http2.mlstatic.com/D_NQ_NP_2X_000000-MLA00000000000_000000-F.webp"
+    }
+];
+// =====================================================
+// RENDER DEMO
+// =====================================================
+function cargarOfertasDemo(){
+    if(!carrusel) return;
+    carrusel.innerHTML="";
+    ofertasDemo.forEach(
+        oferta=>{
+            const card =
+                document.createElement(
+                    "article"
+                );
+            card.className =
+                "ofertaCard";
+            card.innerHTML=`
+                <img
+                    src="${oferta.imagen}"
+                    alt="${oferta.titulo}"
+                >
+                <div class="ofertaInfo">
+                    <h3>
+                        ${oferta.titulo}
+                    </h3>
+                    <div class="precioAntes">
+                        Antes:
+                        <s>
+                            $${oferta.precioAntes}
+                        </s>
+                    </div>
+                    <div class="precioFinal">
+                        $${oferta.precioFinal}
+                    </div>
+                    <div class="descuento">
+                        🔥 ${oferta.descuento}
+                    </div>
+                    <a
+                        href="#"
+                        class="btnOferta"
+                        onclick="
+                            event.preventDefault();
+                            mostrarToast('🛒 Próximamente conectado a Mercado Libre');
+                        "
+                    >
+                        🛒 VER OFERTA
+                    </a>
+                </div>
+            `;
+            carrusel.appendChild(card);
+        }
+    );
+}
+// =====================================================
+// INICIO
+// =====================================================
+cargarOfertasDemo();
+console.log(
+    "✅ Nueva plataforma cargada correctamente"
+);
